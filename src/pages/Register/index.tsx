@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase";
 import styled from "styled-components";
 import { regex_email, regex_name, regex_password } from "../../utils/regex";
+import { useNavigate } from "react-router-dom";
 
 interface FormValue {
   name: string;
@@ -12,7 +13,9 @@ interface FormValue {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   const {
     register,
@@ -25,29 +28,35 @@ const Register = () => {
   const onSubmit = async (data: FormValue) => {
     console.log({ data });
     const { email, password, name } = data;
-    console.log("asd");
+
     try {
+      setLoading(true);
       const credentials = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+
       console.log(credentials.user);
+
       await updateProfile(credentials.user, {
         displayName: name,
       });
-    } catch (e) {
-      // error
+      navigate("/");
+    } catch (e: any) {
+      if (e.code === "auth/email-already-in-use") {
+        setEmailError("이미 존재하는 이메일 입니다.");
+      } else {
+        setEmailError(null);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const onError = (error: any) => {
-    console.log(error);
+    console.log({ error });
   };
-
-  console.log(watch());
 
   return (
     <Wrapper>
@@ -65,7 +74,7 @@ const Register = () => {
           type="text"
           placeholder="이름"
         />
-        <p>{errors.name?.message}</p>
+        <ErrorMessage>{errors.name?.message}</ErrorMessage>
         <Input
           {...register("email", {
             required: "이메일을 입력해주세요",
@@ -78,7 +87,8 @@ const Register = () => {
           placeholder="이메일"
           required
         />
-        <p>{errors.email?.message}</p>
+        {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+        <ErrorMessage>{errors.email?.message}</ErrorMessage>
         <Input
           {...register("password", {
             required: "비밀번호를 입력해주세요",
@@ -91,7 +101,7 @@ const Register = () => {
           placeholder="비밀번호"
           required
         />
-        <p>{errors.password?.message}</p>
+        <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button type="submit">{isLoading ? "Loading..." : "회원가입"}</Button>
       </Form>
     </Wrapper>
@@ -115,7 +125,7 @@ const Form = styled.form`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  /* gap: 10px; */
   width: 100%;
 `;
 
@@ -133,6 +143,10 @@ const Button = styled.button`
   padding: 10px 20px;
   width: 100%;
   font-size: 1rem;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
 `;
 
 export default Register;
