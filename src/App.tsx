@@ -5,12 +5,23 @@ import Layout from "./components/layout";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import styled from "styled-components";
+import Home from "./pages/Home";
+import ProtectedRoute from "./components/protected-route";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    children: [],
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+    ],
   },
   {
     path: "/login",
@@ -23,18 +34,18 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const init = async () => {
-    // wait for firebase
     await auth.authStateReady();
-    setIsLoading(false);
+    setLoading(false);
   };
   useEffect(() => {
     init();
   }, []);
+
   return (
     <Wrapper>
-      {isLoading ? <p>Loading</p> : <RouterProvider router={router} />}
+      {isLoading ? "Loading" : <RouterProvider router={router} />}
     </Wrapper>
   );
 }
