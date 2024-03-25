@@ -5,6 +5,7 @@ import { auth } from "../../firebase";
 import styled from "styled-components";
 import { regex_email, regex_name, regex_password } from "../../utils/regex";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 interface FormValue {
   name: string;
@@ -15,7 +16,7 @@ interface FormValue {
 const Register = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [emailError, setEmailError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -23,10 +24,11 @@ const Register = () => {
     watch,
     getValues,
     formState: { errors },
-  } = useForm<FormValue>({ mode: "onBlur" });
+  } = useForm<FormValue>({ mode: "onBlur", reValidateMode: "onBlur" });
 
   const onSubmit = async (data: FormValue) => {
     console.log({ data });
+    setError("");
     const { email, password, name } = data;
 
     try {
@@ -43,11 +45,13 @@ const Register = () => {
         displayName: name,
       });
       navigate("/");
-    } catch (e: any) {
-      if (e.code === "auth/email-already-in-use") {
-        setEmailError("이미 존재하는 이메일 입니다.");
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        if (e.code === "auth/email-already-in-use") {
+          setError("이미 존재하는 이메일 입니다.");
+        }
       } else {
-        setEmailError(null);
+        setError(null);
       }
     } finally {
       setLoading(false);
@@ -87,7 +91,7 @@ const Register = () => {
           placeholder="이메일"
           required
         />
-        {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
         <Input
           {...register("password", {
