@@ -1,12 +1,12 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Layout from "./components/layout";
 import { useEffect, useState } from "react";
-import { auth } from "./firebase";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { auth } from "firebase";
+import Login from "pages/Login";
+import Register from "pages/Register";
+import Home from "pages/Home";
+import Layout from "components/layout";
+import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
-import Home from "./pages/Home";
-import ProtectedRoute from "./components/protected-route";
 
 const router = createBrowserRouter([
   {
