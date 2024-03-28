@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../firebase";
-import styled from "styled-components";
-import { regex_email, regex_name, regex_password } from "../../utils/regex";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
+import { auth } from "../../firebase";
+import { regex_email, regex_name, regex_password } from "utils/regex";
+import { OpenEye, CloseEye } from "components/Icon/Icons";
+import styled from "styled-components";
 
 interface FormValue {
   name: string;
@@ -15,14 +16,14 @@ interface FormValue {
 
 const Register = () => {
   const navigate = useNavigate();
+
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
     formState: { errors },
   } = useForm<FormValue>({ mode: "onBlur", reValidateMode: "onBlur" });
 
@@ -59,7 +60,7 @@ const Register = () => {
   };
 
   const onError = (error: any) => {
-    console.log({ error });
+    console.log({ error }, "유효성 검사중 에러 발생");
   };
 
   return (
@@ -90,21 +91,28 @@ const Register = () => {
           type="email"
           placeholder="이메일"
           required
+          onChange={() => setError(null)}
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        <Input
-          {...register("password", {
-            required: "비밀번호를 입력해주세요",
-            pattern: {
-              value: regex_password,
-              message: "8자~16자의 영문, 숫자, 특수문자를 사용해 주세요.",
-            },
-          })}
-          type="password"
-          placeholder="비밀번호"
-          required
-        />
+        <PasswordContainer>
+          <Input
+            {...register("password", {
+              required: "비밀번호를 입력해주세요",
+              pattern: {
+                value: regex_password,
+                message: "8자~16자의 영문, 숫자, 특수문자를 사용해 주세요.",
+              },
+            })}
+            type={showPassword ? "text" : "password"}
+            placeholder="비밀번호"
+            required
+          />
+          <i onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <OpenEye /> : <CloseEye />}
+          </i>
+        </PasswordContainer>
+
         <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button type="submit">{isLoading ? "Loading..." : "회원가입"}</Button>
       </Form>
@@ -141,6 +149,17 @@ const Input = styled.input`
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem;
+`;
+
+const PasswordContainer = styled.div`
+  position: relative;
+
+  i {
+    position: absolute;
+    top: 25%;
+    right: 3%;
+    cursor: pointer;
+  }
 `;
 
 const Button = styled.button`
