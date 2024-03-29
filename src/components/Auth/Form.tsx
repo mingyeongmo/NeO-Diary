@@ -14,42 +14,49 @@ export const Title = styled.h2`
 `;
 
 export const Form = styled.form`
-  margin-top: 50px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   /* gap: 10px; */
   width: 100%;
 `;
 
+export const InputContainer = styled.div`
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 25px;
+  position: relative;
+  i {
+    position: absolute;
+    top: 15%;
+    right: 3%;
+    cursor: pointer;
+  }
+`;
+
 export const Input = styled.input`
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: 1px solid gray;
+  padding: 10px 10px;
+  border: 0px;
+  border-bottom: 1px solid gray;
 
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
   font-size: 1rem;
 `;
 
-export const PasswordContainer = styled.div`
-  position: relative;
-
-  i {
-    position: absolute;
-    top: 25%;
-    right: 3%;
-    cursor: pointer;
-  }
+export const ErrorMessage = styled.p`
+  color: red;
+  margin: 0;
+  font-size: 0.9rem;
 `;
 
 export const Button = styled.button`
   padding: 10px 20px;
   width: 100%;
   font-size: 1rem;
-`;
-
-export const ErrorMessage = styled.p`
-  color: red;
 `;
 
 export const Switcher = styled.span`

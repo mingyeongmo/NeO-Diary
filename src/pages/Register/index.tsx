@@ -11,11 +11,11 @@ import {
   ErrorMessage,
   Form,
   Input,
-  PasswordContainer,
+  InputContainer,
   Switcher,
   Title,
   Wrapper,
-} from "components/Auth/Auth";
+} from "components/Auth/Form";
 
 interface FormValue {
   name: string;
@@ -59,6 +59,8 @@ const Register = () => {
       if (e instanceof FirebaseError) {
         if (e.code === "auth/email-already-in-use") {
           setError("이미 존재하는 이메일 입니다.");
+        } else {
+          setError("예기치 못한 에러 입니다.");
         }
       } else {
         setError(null);
@@ -76,35 +78,39 @@ const Register = () => {
     <Wrapper>
       <Title>회원가입</Title>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <Input
-          {...register("name", {
-            required: "이름을 입력해주세요",
-            pattern: {
-              value: regex_name,
-              message:
-                "한글, 대/소문자를 사용해주세요. (특수기호, 공백 사용 불가)",
-            },
-          })}
-          type="text"
-          placeholder="이름"
-        />
-        <ErrorMessage>{errors.name?.message}</ErrorMessage>
-        <Input
-          {...register("email", {
-            required: "이메일을 입력해주세요",
-            pattern: {
-              value: regex_email,
-              message: "이메일 주소가 정확한지 확인해 주세요.",
-            },
-          })}
-          type="email"
-          placeholder="이메일"
-          required
-          onChange={() => setError(null)}
-        />
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        <PasswordContainer>
+        <InputContainer>
+          <Input
+            {...register("name", {
+              required: "이름을 입력해주세요",
+              pattern: {
+                value: regex_name,
+                message:
+                  "한글, 대/소문자를 사용해주세요. (특수기호, 공백 사용 불가)",
+              },
+            })}
+            type="text"
+            placeholder="이름"
+          />
+          <ErrorMessage>{errors.name?.message}</ErrorMessage>
+        </InputContainer>
+        <InputContainer>
+          <Input
+            {...register("email", {
+              required: "이메일을 입력해주세요",
+              pattern: {
+                value: regex_email,
+                message: "이메일 주소가 정확한지 확인해 주세요.",
+              },
+            })}
+            type="email"
+            placeholder="이메일"
+            required
+            onChange={() => setError(null)}
+          />
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <ErrorMessage>{errors.email?.message}</ErrorMessage>
+        </InputContainer>
+        <InputContainer>
           <Input
             {...register("password", {
               required: "비밀번호를 입력해주세요",
@@ -120,9 +126,9 @@ const Register = () => {
           <i onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <OpenEye /> : <CloseEye />}
           </i>
-        </PasswordContainer>
+          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        </InputContainer>
 
-        <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button type="submit">{isLoading ? "Loading..." : "회원가입"}</Button>
       </Form>
       <Switcher>
