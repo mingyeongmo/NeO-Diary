@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "../../firebase";
 import { regex_email, regex_name, regex_password } from "utils/regex";
 import { OpenEye, CloseEye } from "components/Icon/Icons";
-import styled from "styled-components";
+import {
+  Button,
+  ErrorMessage,
+  Form,
+  Input,
+  PasswordContainer,
+  Switcher,
+  Title,
+  Wrapper,
+} from "components/Auth/Auth";
 
 interface FormValue {
   name: string;
@@ -116,60 +125,11 @@ const Register = () => {
         <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button type="submit">{isLoading ? "Loading..." : "회원가입"}</Button>
       </Form>
+      <Switcher>
+        <Link to="/login">로그인</Link>
+      </Switcher>
     </Wrapper>
   );
 };
-
-const Wrapper = styled.div`
-  margin-top: 200px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 450px;
-`;
-
-const Title = styled.h2`
-  font-size: 1.5rem;
-`;
-
-const Form = styled.form`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  /* gap: 10px; */
-  width: 100%;
-`;
-
-const Input = styled.input`
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: 1px solid gray;
-
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1rem;
-`;
-
-const PasswordContainer = styled.div`
-  position: relative;
-
-  i {
-    position: absolute;
-    top: 25%;
-    right: 3%;
-    cursor: pointer;
-  }
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  width: 100%;
-  font-size: 1rem;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-`;
 
 export default Register;
