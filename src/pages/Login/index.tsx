@@ -7,6 +7,7 @@ import { auth } from "../../firebase";
 import { OpenEye, CloseEye } from "components/Icon/Icons";
 import {
   Button,
+  Comment,
   ErrorMessage,
   Form,
   Input,
@@ -64,8 +65,12 @@ const Login = () => {
 
   return (
     <Wrapper>
-      <Title>로그인</Title>
+      <Comment>
+        <h1>Secret Diary</h1>
+        <p>당신의 소중한 순간을 남겨보세요.</p>
+      </Comment>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
+        <Title>로그인</Title>
         <InputContainer>
           <Input
             {...register("email")}
@@ -88,10 +93,10 @@ const Login = () => {
         </InputContainer>
         <Button type="submit">{isLoading ? "Loading..." : "로그인"}</Button>
         <ErrorMessage>{error}</ErrorMessage>
+        <Switcher>
+          <Link to="/register">회원가입</Link>
+        </Switcher>
       </Form>
-      <Switcher>
-        <Link to="/register">회원가입</Link>
-      </Switcher>
     </Wrapper>
   );
 };

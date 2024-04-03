@@ -1,13 +1,17 @@
+import { Link } from "react-router-dom";
 import { auth } from "../../firebase";
+import styles from "./style.module.scss";
 
 const Home = () => {
   const logOut = () => {
     auth.signOut();
   };
+
   return (
     <div>
-      이곳은 로그인 완료시 들어와지는 공간 입니다.
       <button onClick={logOut}>Log Out</button>
+      <h1>나의 일기</h1>
+      <Link to="/diary">일기 쓰러가기</Link>
     </div>
   );
 };

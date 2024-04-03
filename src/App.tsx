@@ -7,6 +7,7 @@ import Home from "pages/Home";
 import Layout from "components/layout";
 import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
+import Diary from "pages/Diary";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "/diary",
+        element: <Diary />,
       },
     ],
   },
