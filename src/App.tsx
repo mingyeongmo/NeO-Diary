@@ -8,6 +8,7 @@ import Layout from "components/layout";
 import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
+import Posts from "components/Post/posts";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/diary",
+        path: "/diary/list/:month",
+        element: <Posts />,
+      },
+      {
+        path: "/diary/write",
         element: <Diary />,
       },
     ],
@@ -56,6 +61,7 @@ function App() {
 }
 
 const Wrapper = styled.div`
+  width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
