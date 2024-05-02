@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import styles from "./style.module.scss";
-import Posts from "components/Post/posts";
+import Month from "components/Month/Month";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,9 +17,9 @@ const Home = () => {
     <div>
       <button onClick={LogOut}>Log Out</button>
       <h1>나의 일기</h1>
-      <Link to="/diary">일기 쓰러가기</Link>
-      <h1>일기 목록</h1>
-      <Posts />
+      <Link to="/diary/write">일기 쓰러가기</Link>
+      <h1>2024</h1>
+      <Month />
     </div>
   );
 };
