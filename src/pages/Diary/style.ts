@@ -25,8 +25,9 @@ export const Container = styled.div`
 
 export const TitleInput = styled.input`
   width: 400px;
-  border-width: 0 0 1px;
+  border-width: 0 0 0px;
   font-size: 2rem;
+  margin-bottom: 10px;
   outline: none;
   text-align: center;
   /* border: none; */
@@ -35,9 +36,7 @@ export const TitleInput = styled.input`
   }
 `;
 
-export const AttachFileBtn = styled.label`
-  padding: 10px 0px;
-`;
+export const AttachFileBtn = styled.label``;
 
 export const AttachFileInput = styled.input`
   display: none;
@@ -45,13 +44,27 @@ export const AttachFileInput = styled.input`
 
 export const Content = styled.div`
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+export const Weather = styled.div`
+  border: 1px solid blue;
+`;
+
+export const PreviewImage = styled.img`
+  width: 300px;
+  height: 500px;
+  object-fit: cover;
 `;
 
 export const PhotoArea = styled.div`
   width: 100%;
   height: 900px;
-  border: 1px solid;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 `;
 export const TextArea = styled.textarea`
   width: 100%;

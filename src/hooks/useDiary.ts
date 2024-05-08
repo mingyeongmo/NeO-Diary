@@ -7,6 +7,7 @@ const useDiary = () => {
   const [isLoading, setLoading] = useState(false);
   const [diary, setDiary] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [imgFile, setImgFile] = useState("");
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDiary(e.target.value);
@@ -14,8 +15,16 @@ const useDiary = () => {
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    const reader = new FileReader();
+
     if (files && files.length === 1) {
       setFile(files[0]);
+      reader.readAsDataURL(files[0]);
+      reader.onloadend = () => {
+        if (reader.result !== null) {
+          setImgFile(reader.result as string);
+        }
+      };
     }
   };
 
@@ -58,6 +67,7 @@ const useDiary = () => {
     isLoading,
     diary,
     file,
+    imgFile,
     onChange,
     onFileChange,
     onSubmit,
