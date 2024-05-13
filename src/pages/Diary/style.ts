@@ -5,6 +5,8 @@ export const Section = styled.section`
   padding: 50px 30px 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Form = styled.form`
@@ -16,62 +18,73 @@ export const Form = styled.form`
   gap: 10px;
 `;
 
-export const Container = styled.div`
+export const Content = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* grid-template-columns: repeat(2, 1fr); */
+`;
+
+export const LeftContent = styled.div`
+  width: 50%;
+  border: 1px solid black;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background: #fff;
+  overflow: hidden;
+`;
+
+export const RightContent = styled.div`
+  width: 50%;
+  border: 1px solid black;
+  border-left: 0px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background: #fff;
+  overflow: hidden;
 `;
 
 export const TitleInput = styled.input`
-  width: 400px;
-  border-width: 0 0 0px;
+  width: 100%;
+  border-width: 0;
   font-size: 2rem;
   margin-bottom: 10px;
+  padding: 0;
   outline: none;
   text-align: center;
-  /* border: none; */
   &::placeholder {
     text-align: center;
   }
 `;
 
+export const Weather = styled.div`
+  width: 100%;
+  /* border: 1px solid black; */
+`;
+
 export const AttachFileBtn = styled.label``;
+
+export const RemoveFileBtn = styled.label``;
 
 export const AttachFileInput = styled.input`
   display: none;
 `;
 
-export const Content = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-`;
-
-export const Weather = styled.div`
-  border: 1px solid blue;
-`;
-
 export const PreviewImage = styled.img`
-  width: 300px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 `;
 
 export const PhotoArea = styled.div`
   width: 100%;
   height: 900px;
-  border: 1px solid red;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
 `;
-export const TextArea = styled.textarea`
+export const TextArea = styled.div`
   width: 100%;
-  border: 1px solid;
-  border-radius: 8px;
-  font-size: 16px;
-  resize: none;
+  height: 100%;
 `;
 
 export const Button = styled.button``;

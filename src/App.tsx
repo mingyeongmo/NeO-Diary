@@ -65,6 +65,7 @@ const Wrapper = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  background: #fafafa;
 `;
 
 export default App;
