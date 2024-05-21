@@ -5,11 +5,16 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const useDiary = () => {
   const [isLoading, setLoading] = useState(false);
+  const [diaryTitle, setDiaryTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [imgFile, setImgFile] = useState("");
 
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDiaryTitle(e.target.value);
+  };
+
+  const onDiaryContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDiary(e.target.value);
   };
 
@@ -36,6 +41,7 @@ const useDiary = () => {
     try {
       setLoading(true);
       const doc = await addDoc(collection(db, "diary"), {
+        diaryTitle,
         diary,
         createdAt: Date.now(),
         weather: "맑음",
@@ -65,11 +71,13 @@ const useDiary = () => {
 
   return {
     isLoading,
+    diaryTitle,
+    onDiaryTitleChange,
     diary,
+    onDiaryContentChange,
     file,
     imgFile,
     setImgFile,
-    onChange,
     onFileChange,
     onSubmit,
   };

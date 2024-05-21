@@ -4,11 +4,13 @@ import useDiary from "hooks/useDiary";
 const Diary = () => {
   const {
     isLoading,
+    diaryTitle,
+    onDiaryTitleChange,
     diary,
+    onDiaryContentChange,
     file,
     imgFile,
     setImgFile,
-    onChange,
     onFileChange,
     onSubmit,
   } = useDiary();
@@ -19,7 +21,13 @@ const Diary = () => {
       <S.Form onSubmit={onSubmit}>
         <S.Content>
           <S.LeftContent>
-            <S.TitleInput type="text" placeholder="일기 제목" maxLength={50} />
+            <S.TitleInput
+              value={diaryTitle}
+              onChange={onDiaryTitleChange}
+              type="text"
+              placeholder="일기 제목"
+              maxLength={50}
+            />
             <S.PhotoArea>
               <div
                 style={{
@@ -56,7 +64,7 @@ const Diary = () => {
               <textarea
                 value={diary}
                 maxLength={1500}
-                onChange={onChange}
+                onChange={onDiaryContentChange}
                 style={{
                   width: "100%",
                   height: "100%",
