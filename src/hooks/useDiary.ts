@@ -76,6 +76,7 @@ const useDiary = () => {
     diary,
     onDiaryContentChange,
     file,
+    setFile,
     imgFile,
     setImgFile,
     onFileChange,

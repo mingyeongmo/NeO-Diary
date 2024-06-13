@@ -1,5 +1,7 @@
-import * as S from "./style";
+import { useRef } from "react";
 import useDiary from "hooks/useDiary";
+import Calendar from "./Calendar";
+import * as S from "./style";
 
 const Diary = () => {
   const {
@@ -9,18 +11,29 @@ const Diary = () => {
     diary,
     onDiaryContentChange,
     file,
+    setFile,
     imgFile,
     setImgFile,
     onFileChange,
     onSubmit,
   } = useDiary();
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileRemove = () => {
+    setImgFile("");
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <S.Section>
-      <h1>2024/05/08</h1>
       <S.Form onSubmit={onSubmit}>
         <S.Content>
-          <S.LeftContent>
+          <S.TopArea>
+            <Calendar />
             <S.TitleInput
               value={diaryTitle}
               onChange={onDiaryTitleChange}
@@ -28,56 +41,78 @@ const Diary = () => {
               placeholder="일기 제목"
               maxLength={50}
             />
-            <S.PhotoArea>
-              <div
-                style={{
-                  flex: 9.5,
-                  padding: "10px",
-                  borderTop: "1px solid black",
-                  borderBottom: "1px solid black",
-                }}
-              >
-                {imgFile && <S.PreviewImage src={imgFile} alt="preview" />}
-              </div>
-              <div style={{ flex: 0.5 }}>
-                <S.AttachFileBtn htmlFor="file">
-                  {file ? "사진 수정" : "사진 넣기"}
-                </S.AttachFileBtn>
-                {file && (
-                  <S.RemoveFileBtn onClick={() => setImgFile("")}>
+            <S.Weather>☀️</S.Weather>
+          </S.TopArea>
+          <S.BarContainer>
+            <S.Bar />
+          </S.BarContainer>
+          <S.PhotoArea>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                flex: 9,
+                overflow: "hidden",
+              }}
+            >
+              {imgFile ? (
+                <S.PreviewImage src={imgFile} alt="preview" />
+              ) : (
+                <S.NoneImage />
+              )}
+            </div>
+            <div
+              style={{
+                width: "auto",
+                height: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
+                position: "absolute",
+              }}
+            >
+              <S.AttachFileBtn as="label" htmlFor="file">
+                {!file && "사진 넣기"}
+              </S.AttachFileBtn>
+              {/* <S.ButtonContainer className="hover-buttons"> */}
+              {file && (
+                <>
+                  <S.AttachFileBtn htmlFor="file">사진 수정</S.AttachFileBtn>
+                  <S.RemoveFileBtn onClick={handleFileRemove}>
                     사진 삭제
                   </S.RemoveFileBtn>
-                )}
-                <S.AttachFileInput
-                  onChange={onFileChange}
-                  required
-                  type="file"
-                  id="file"
-                  accept="image/*"
-                />
-              </div>
-            </S.PhotoArea>
-          </S.LeftContent>
-          <S.RightContent>
-            <S.Weather>날씨</S.Weather>
-            <S.TextArea>
-              <textarea
-                value={diary}
-                maxLength={1500}
-                onChange={onDiaryContentChange}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  padding: "15px",
-                  fontSize: "16px",
-                  resize: "none",
-                  boxSizing: "border-box",
-                  outline: "none",
-                  border: "none",
-                }}
+                </>
+              )}
+              {/* </S.ButtonContainer> */}
+              <S.AttachFileInput
+                onChange={onFileChange}
+                ref={fileInputRef}
+                required
+                type="file"
+                id="file"
+                accept="image/*"
               />
-            </S.TextArea>
-          </S.RightContent>
+            </div>
+          </S.PhotoArea>
+          <S.TextArea>
+            <textarea
+              value={diary}
+              maxLength={1500}
+              onChange={onDiaryContentChange}
+              placeholder="내용을 입력해주세요"
+              style={{
+                width: "100%",
+                height: "100%",
+                padding: "20px",
+                fontSize: "16px",
+                resize: "none",
+                boxSizing: "border-box",
+                outline: "none",
+                borderRadius: "15px",
+              }}
+            />
+          </S.TextArea>
         </S.Content>
         <S.Button type="submit">{isLoading ? "생성중" : "일기 생성"}</S.Button>
       </S.Form>

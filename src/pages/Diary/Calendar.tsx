@@ -6,7 +6,7 @@ const Calendar = () => {
   let date = today.getDate(); // 날짜
   return (
     <>
-      <h1>{`${year} / ${month} / ${date}`}</h1>
+      <h1 style={{ flex: 1 }}>{`${year} / ${month} / ${date}`}</h1>
     </>
   );
 };
