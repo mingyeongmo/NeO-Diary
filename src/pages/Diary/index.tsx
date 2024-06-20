@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import useDiary from "hooks/useDiary";
 import Calendar from "./Calendar";
+import { Delete, Edit, Upload } from "components/Icon/Icons";
 import * as S from "./style";
+import Weather from "./Weather";
 
 const Diary = () => {
   const {
@@ -41,7 +43,9 @@ const Diary = () => {
               placeholder="일기 제목"
               maxLength={50}
             />
-            <S.Weather>☀️</S.Weather>
+            <S.Weather>
+              <Weather />
+            </S.Weather>
           </S.TopArea>
           <S.BarContainer>
             <S.Bar />
@@ -50,41 +54,23 @@ const Diary = () => {
             <div
               style={{
                 width: "100%",
-                height: "100%",
-                flex: 9,
-                overflow: "hidden",
-              }}
-            >
-              {imgFile ? (
-                <S.PreviewImage src={imgFile} alt="preview" />
-              ) : (
-                <S.NoneImage />
-              )}
-            </div>
-            <div
-              style={{
-                width: "auto",
                 height: "auto",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
                 flex: 1,
-                position: "absolute",
               }}
             >
-              <S.AttachFileBtn as="label" htmlFor="file">
-                {!file && "사진 넣기"}
-              </S.AttachFileBtn>
-              {/* <S.ButtonContainer className="hover-buttons"> */}
               {file && (
                 <>
-                  <S.AttachFileBtn htmlFor="file">사진 수정</S.AttachFileBtn>
+                  <S.AttachFileBtn htmlFor="file">
+                    <Edit />
+                  </S.AttachFileBtn>
                   <S.RemoveFileBtn onClick={handleFileRemove}>
-                    사진 삭제
+                    <Delete />
                   </S.RemoveFileBtn>
                 </>
               )}
-              {/* </S.ButtonContainer> */}
               <S.AttachFileInput
                 onChange={onFileChange}
                 ref={fileInputRef}
@@ -93,6 +79,22 @@ const Diary = () => {
                 id="file"
                 accept="image/*"
               />
+            </div>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                flex: 9,
+                overflow: "hidden",
+              }}
+            >
+              {file ? (
+                <S.PreviewImage src={imgFile} alt="preview" />
+              ) : (
+                <S.AttachFileBtn as="label" htmlFor="file">
+                  <S.NoneImage>사진을 넣어주세요</S.NoneImage>
+                </S.AttachFileBtn>
+              )}
             </div>
           </S.PhotoArea>
           <S.TextArea>
