@@ -65,28 +65,15 @@ export const Bar = styled.div`
   width: 90%;
   height: 1px;
   background: black;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
-// export const ButtonContainer = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 10px;
-//   opacity: 0;
-//   transition: opacity 0.3s;
-//   background: rgba(0, 0, 0, 0.5); /* 반투명 배경 추가 */
-//   border-radius: 15px; /* 원하는 radius 값 */
-// `;
-
-export const AttachFileBtn = styled.label``;
+export const AttachFileBtn = styled.label`
+  cursor: pointer;
+`;
 
 export const RemoveFileBtn = styled.label`
+  cursor: pointer;
   margin-left: 10px;
 `;
 
@@ -101,14 +88,14 @@ export const PreviewImage = styled.img`
   max-height: 100%;
   object-fit: contain;
   border-radius: 10px;
-  &:hover .hover-buttons {
-    opacity: 1;
-  }
 `;
 
 export const NoneImage = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
   background: #dedede;
 `;
