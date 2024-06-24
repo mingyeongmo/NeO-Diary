@@ -1,31 +1,31 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const Weather = () => {
-  const [view, setView] = useState(false);
-  const [weather, setWeather] = useState("맑음");
+  const [weather, setWeather] = useState("날씨");
 
   const weatherList = ["맑음", "흐림", "비"];
 
-  //   const settingWeather = (weather) => {
-  //     set
-
-  //   };
-
+  const handleSelectWeather = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setWeather(e.target.value);
+  };
   return (
-    <div onClick={() => setView(!view)}>
-      <label>{weather}</label>
-      {view ? "^" : "⌄"}
-      {view && (
-        <>
-          {weatherList.map((weathers, index) => (
-            <li onClick={() => setWeather(weathers)} key={index}>
-              {weathers}
-            </li>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      <WeatherList onChange={handleSelectWeather} value={weather}>
+        {weatherList.map((weathers, index) => (
+          <option value={weathers} key={index}>
+            {weathers}
+          </option>
+        ))}
+      </WeatherList>
+    </>
   );
 };
+
+const WeatherList = styled.select`
+  width: 70px;
+  height: 100%;
+  box-sizing: border-box;
+`;
 
 export default Weather;

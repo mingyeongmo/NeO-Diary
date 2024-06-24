@@ -28,10 +28,17 @@ export const Content = styled.div`
   overflow: hidden;
 `;
 
-export const TopArea = styled.div`
+export const TopAreaContainer = styled.div`
   width: 100%;
   display: flex;
-  margin: 30px 0 20px;
+  justify-content: center;
+`;
+
+export const TopArea = styled.div`
+  width: 90%;
+  display: flex;
+  padding: 30px 0 20px;
+  border-bottom: 1px solid black;
 `;
 
 export const TitleInput = styled.input`
@@ -49,23 +56,11 @@ export const TitleInput = styled.input`
 
 export const Weather = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
   font-size: 2rem;
   text-align: center;
   flex: 1;
-`;
-
-export const BarContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Bar = styled.div`
-  width: 90%;
-  height: 1px;
-  background: black;
-  margin-bottom: 10px;
 `;
 
 export const AttachFileBtn = styled.label`

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import useDiary from "hooks/useDiary";
-import Calendar from "./Calendar";
-import { Delete, Edit, Upload } from "components/Icon/Icons";
+import Calendar from "./Calendar/Calendar";
+import { Delete, Edit } from "components/Icon/Icons";
 import * as S from "./style";
 import Weather from "./Weather";
 
@@ -34,22 +34,21 @@ const Diary = () => {
     <S.Section>
       <S.Form onSubmit={onSubmit}>
         <S.Content>
-          <S.TopArea>
-            <Calendar />
-            <S.TitleInput
-              value={diaryTitle}
-              onChange={onDiaryTitleChange}
-              type="text"
-              placeholder="일기 제목"
-              maxLength={50}
-            />
-            <S.Weather>
-              <Weather />
-            </S.Weather>
-          </S.TopArea>
-          <S.BarContainer>
-            <S.Bar />
-          </S.BarContainer>
+          <S.TopAreaContainer>
+            <S.TopArea>
+              <Calendar />
+              <S.TitleInput
+                value={diaryTitle}
+                onChange={onDiaryTitleChange}
+                type="text"
+                placeholder="일기 제목"
+                maxLength={50}
+              />
+              <S.Weather>
+                <Weather />
+              </S.Weather>
+            </S.TopArea>
+          </S.TopAreaContainer>
           <S.PhotoArea>
             <div
               style={{
