@@ -10,17 +10,48 @@
     align-items: center;
     border-radius: 4px;
     box-sizing: border-box;
-
     text-align: center;
+  }
 
-    //   &:focus {
-    //     border: 2px solid green;
-    //   }
+  .customHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin-top: 3px;
+    padding: 0 12px;
+
+    .month {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .year {
+      border: none;
+      font-size: 16px;
+      font-weight: 500;
+      margin-right: 15px;
+      padding-left: 5px;
+      cursor: pointer;
+      // font-family: "Noto Sans KR", serif;
+    }
+
+    .monthBtn {
+      width: 24px;
+      height: 24px;
+      padding: 5px;
+      border: none;
+      cursor: pointer;
+    }
   }
 }
 
 :global {
   .react-datepicker__input-container {
     height: 100%;
+  }
+
+  .react-datepicker__header {
+    background-color: white;
   }
 }
