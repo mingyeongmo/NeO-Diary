@@ -23,8 +23,11 @@ const Weather = () => {
 };
 
 const WeatherList = styled.select`
-  width: 70px;
+  width: 80px;
   height: 100%;
+  border: 1.5px solid black;
+  font-size: 1rem;
+  text-align: center;
   box-sizing: border-box;
 `;
 

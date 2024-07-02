@@ -3,7 +3,7 @@ import useDiary from "hooks/useDiary";
 import Calendar from "./Calendar/Calendar";
 import { Delete, Edit } from "components/Icon/Icons";
 import * as S from "./style";
-import Weather from "./Weather";
+import Weather from "./Weather/Weather";
 
 const Diary = () => {
   const {

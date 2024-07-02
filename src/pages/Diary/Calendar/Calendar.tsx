@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,14 @@ import styles from "./Calendar.module.scss";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
+  const [dateData, setDateData] = useState({
+    year: selectedDate?.getFullYear(),
+    month:
+      selectedDate?.getMonth() !== undefined
+        ? selectedDate.getMonth() + 1
+        : undefined,
+    day: selectedDate?.getDate(),
+  });
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
     (_, i) => getYear(new Date()) - i
@@ -27,6 +34,36 @@ const Calendar = () => {
     "11월",
     "12월",
   ];
+
+  console.log(dateData);
+
+  useEffect(() => {
+    if (selectedDate) {
+      setDateData({
+        year: selectedDate.getFullYear(),
+        month: selectedDate.getMonth() + 1,
+        day: selectedDate.getDate(),
+      });
+    } else {
+      setDateData({
+        year: undefined,
+        month: undefined,
+        day: undefined,
+      });
+    }
+  }, [selectedDate]);
+
+  const handleDateChange = (date: SetStateAction<Date | null>) => {
+    setSelectedDate(date);
+    setDateData({
+      year: selectedDate?.getFullYear(),
+      month:
+        selectedDate?.getMonth() !== undefined
+          ? selectedDate.getMonth() + 1
+          : undefined,
+      day: selectedDate?.getDate(),
+    });
+  };
 
   return (
     <div className={styles.calenderContainer}>
@@ -83,7 +120,7 @@ const Calendar = () => {
         minDate={new Date("2000-01-01")} // minDate 이전 날짜 선택 불가
         maxDate={new Date()} // maxDate 이후 날짜 선택 불가
         selected={selectedDate}
-        onChange={(date: SetStateAction<Date | null>) => setSelectedDate(date)}
+        onChange={handleDateChange}
       />
     </div>
   );
