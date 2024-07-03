@@ -10,8 +10,9 @@ const Diary = () => {
     isLoading,
     diaryTitle,
     onDiaryTitleChange,
-    diary,
+    diaryContent,
     onDiaryContentChange,
+    setDiaryDate,
     file,
     setFile,
     imgFile,
@@ -36,7 +37,7 @@ const Diary = () => {
         <S.Content>
           <S.TopAreaContainer>
             <S.TopArea>
-              <Calendar />
+              <Calendar setDiaryDate={setDiaryDate} />
               <S.TitleInput
                 value={diaryTitle}
                 onChange={onDiaryTitleChange}
@@ -98,7 +99,7 @@ const Diary = () => {
           </S.PhotoArea>
           <S.TextArea>
             <textarea
-              value={diary}
+              value={diaryContent}
               maxLength={1500}
               onChange={onDiaryContentChange}
               placeholder="내용을 입력해주세요"

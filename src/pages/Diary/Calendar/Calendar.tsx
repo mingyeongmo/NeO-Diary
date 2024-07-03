@@ -6,7 +6,7 @@ import { ko } from "date-fns/locale";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import styles from "./Calendar.module.scss";
 
-const Calendar = () => {
+const Calendar = ({ setDiaryDate }: any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [dateData, setDateData] = useState({
     year: selectedDate?.getFullYear(),
@@ -16,6 +16,7 @@ const Calendar = () => {
         : undefined,
     day: selectedDate?.getDate(),
   });
+
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
     (_, i) => getYear(new Date()) - i
@@ -63,6 +64,7 @@ const Calendar = () => {
           : undefined,
       day: selectedDate?.getDate(),
     });
+    setDiaryDate(dateData);
   };
 
   return (

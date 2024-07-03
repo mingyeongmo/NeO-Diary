@@ -6,7 +6,8 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 const useDiary = () => {
   const [isLoading, setLoading] = useState(false);
   const [diaryTitle, setDiaryTitle] = useState("");
-  const [diary, setDiary] = useState("");
+  const [diaryContent, setDiaryContent] = useState("");
+  const [diaryDate, setDiaryDate] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [imgFile, setImgFile] = useState("");
 
@@ -15,7 +16,7 @@ const useDiary = () => {
   };
 
   const onDiaryContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDiary(e.target.value);
+    setDiaryContent(e.target.value);
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,14 +37,14 @@ const useDiary = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const user = auth.currentUser;
-    if (!user || isLoading || diary === "") return;
+    if (!user || isLoading || diaryContent === "") return;
 
     try {
       setLoading(true);
       const doc = await addDoc(collection(db, "diary"), {
         diaryTitle,
-        diary,
-        createdAt: Date.now(),
+        diaryContent,
+        createdAt: diaryDate,
         weather: "맑음",
         userId: user.uid,
       });
@@ -60,7 +61,7 @@ const useDiary = () => {
           photo: url,
         });
       }
-      setDiary("");
+      setDiaryContent("");
       setFile(null);
     } catch (e) {
       console.log(e);
@@ -73,8 +74,9 @@ const useDiary = () => {
     isLoading,
     diaryTitle,
     onDiaryTitleChange,
-    diary,
+    diaryContent,
     onDiaryContentChange,
+    setDiaryDate,
     file,
     setFile,
     imgFile,
