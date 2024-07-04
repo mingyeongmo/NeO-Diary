@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef } from "react";
 import useDiary from "hooks/useDiary";
 import Calendar from "./Calendar/Calendar";
@@ -46,9 +47,7 @@ const Diary = () => {
                 placeholder="일기 제목"
                 maxLength={50}
               />
-              <S.Weather>
-                <Weather setDiaryWeather={setDiaryWeather} />
-              </S.Weather>
+              <Weather setDiaryWeather={setDiaryWeather} />
             </S.TopArea>
           </S.TopAreaContainer>
           <S.PhotoArea>

@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,7 +6,7 @@ import { ko } from "date-fns/locale";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import styles from "./Calendar.module.scss";
 
-const Calendar = ({ setDiaryDate }: any) => {
+const Calendar = React.memo(({ setDiaryDate }: any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [dateData, setDateData] = useState({
     year: selectedDate?.getFullYear(),
@@ -35,8 +35,6 @@ const Calendar = ({ setDiaryDate }: any) => {
     "11월",
     "12월",
   ];
-
-  console.log(dateData);
 
   useEffect(() => {
     if (selectedDate) {
@@ -126,6 +124,6 @@ const Calendar = ({ setDiaryDate }: any) => {
       />
     </div>
   );
-};
+});
 
 export default Calendar;

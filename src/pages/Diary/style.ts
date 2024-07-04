@@ -54,15 +54,6 @@ export const TitleInput = styled.input`
   }
 `;
 
-export const Weather = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  font-size: 2rem;
-  text-align: center;
-  flex: 1;
-`;
-
 export const AttachFileBtn = styled.label`
   cursor: pointer;
 `;

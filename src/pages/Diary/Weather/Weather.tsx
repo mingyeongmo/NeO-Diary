@@ -5,7 +5,7 @@ interface diaryWeatherType {
   setDiaryWeather: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Weather = ({ setDiaryWeather }: diaryWeatherType) => {
+const Weather = React.memo(({ setDiaryWeather }: diaryWeatherType) => {
   const [weather, setWeather] = useState("날씨");
 
   const weatherList = ["맑음", "흐림", "비"];
@@ -15,7 +15,7 @@ const Weather = ({ setDiaryWeather }: diaryWeatherType) => {
     setDiaryWeather(e.target.value);
   };
   return (
-    <>
+    <WeatherContainer>
       <WeatherList onChange={handleSelectWeather} value={weather}>
         {weatherList.map((weathers, index) => (
           <option value={weathers} key={index}>
@@ -23,10 +23,18 @@ const Weather = ({ setDiaryWeather }: diaryWeatherType) => {
           </option>
         ))}
       </WeatherList>
-    </>
+    </WeatherContainer>
   );
-};
+});
 
+const WeatherContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 2rem;
+  text-align: center;
+  flex: 1;
+`;
 const WeatherList = styled.select`
   width: 80px;
   height: 100%;
