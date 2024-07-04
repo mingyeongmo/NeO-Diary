@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Weather = () => {
+interface diaryWeatherType {
+  setDiaryWeather: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Weather = ({ setDiaryWeather }: diaryWeatherType) => {
   const [weather, setWeather] = useState("날씨");
 
   const weatherList = ["맑음", "흐림", "비"];
 
   const handleSelectWeather = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setWeather(e.target.value);
+    setDiaryWeather(e.target.value);
   };
   return (
     <>

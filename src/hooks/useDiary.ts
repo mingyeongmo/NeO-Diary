@@ -8,6 +8,7 @@ const useDiary = () => {
   const [diaryTitle, setDiaryTitle] = useState("");
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryDate, setDiaryDate] = useState("");
+  const [diaryWeather, setDiaryWeather] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [imgFile, setImgFile] = useState("");
 
@@ -45,7 +46,7 @@ const useDiary = () => {
         diaryTitle,
         diaryContent,
         createdAt: diaryDate,
-        weather: "맑음",
+        weather: diaryWeather,
         userId: user.uid,
       });
       if (file) {
@@ -77,6 +78,7 @@ const useDiary = () => {
     diaryContent,
     onDiaryContentChange,
     setDiaryDate,
+    setDiaryWeather,
     file,
     setFile,
     imgFile,

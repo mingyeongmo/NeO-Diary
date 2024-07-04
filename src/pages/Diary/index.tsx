@@ -13,6 +13,7 @@ const Diary = () => {
     diaryContent,
     onDiaryContentChange,
     setDiaryDate,
+    setDiaryWeather,
     file,
     setFile,
     imgFile,
@@ -46,7 +47,7 @@ const Diary = () => {
                 maxLength={50}
               />
               <S.Weather>
-                <Weather />
+                <Weather setDiaryWeather={setDiaryWeather} />
               </S.Weather>
             </S.TopArea>
           </S.TopAreaContainer>
