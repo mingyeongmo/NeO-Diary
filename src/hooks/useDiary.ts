@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -34,6 +34,15 @@ const useDiary = () => {
       };
     }
   };
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileRemove = () => {
+    setImgFile("");
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,12 +59,10 @@ const useDiary = () => {
         userId: user.uid,
       });
       if (file) {
-        console.log("file", file);
         const locationRef = ref(
           storage,
           `diary/${user.uid}-${user.displayName}/${doc.id}`
         );
-        console.log({ locationRef });
         const result = await uploadBytes(locationRef, file);
         const url = await getDownloadURL(result.ref);
         await updateDoc(doc, {
@@ -85,6 +92,8 @@ const useDiary = () => {
     setImgFile,
     onFileChange,
     onSubmit,
+    fileInputRef,
+    handleFileRemove,
   };
 };
 
