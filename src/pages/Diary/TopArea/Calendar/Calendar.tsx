@@ -1,12 +1,20 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
-import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
+import "react-datepicker/dist/react-datepicker.css";
 import styles from "./Calendar.module.scss";
 
-const Calendar = React.memo(({ setDiaryDate }: any) => {
+interface diaryCalendarType {
+  setDiaryDate: (date: {
+    year: number | undefined;
+    month: number | undefined;
+    day: number | undefined;
+  }) => void;
+}
+
+const Calendar = React.memo(({ setDiaryDate }: diaryCalendarType) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [dateData, setDateData] = useState({
     year: selectedDate?.getFullYear(),

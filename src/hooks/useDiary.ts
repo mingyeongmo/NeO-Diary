@@ -1,23 +1,64 @@
-import { useRef, useState } from "react";
+import { useReducer, useRef, useState } from "react";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
+interface State {
+  diaryTitle: string;
+  diaryContent: string;
+  diaryDate: {
+    year: number | undefined;
+    month: number | undefined;
+    day: number | undefined;
+  };
+  diaryWeather: string;
+  file: File | null;
+  imgFile: string;
+}
+
+const initialState: State = {
+  diaryTitle: "",
+  diaryContent: "",
+  diaryDate: {
+    year: undefined,
+    month: undefined,
+    day: undefined,
+  },
+  diaryWeather: "",
+  file: null,
+  imgFile: "",
+};
+
+const reducer = (state: State, action: { type: string; payload: any }) => {
+  switch (action.type) {
+    case "SET_TITLE":
+      return { ...state, diaryTitle: action.payload };
+    case "SET_CONTENT":
+      return { ...state, diaryContent: action.payload };
+    case "SET_DATE":
+      return { ...state, diaryDate: action.payload };
+    case "SET_WEATHER":
+      return { ...state, diaryWeather: action.payload };
+    case "SET_FILE":
+      return { ...state, file: action.payload };
+    case "SET_IMG_FILE":
+      return { ...state, imgFile: action.payload };
+    default:
+      return state;
+  }
+};
+
 const useDiary = () => {
   const [isLoading, setLoading] = useState(false);
-  const [diaryTitle, setDiaryTitle] = useState("");
-  const [diaryContent, setDiaryContent] = useState("");
-  const [diaryDate, setDiaryDate] = useState("");
-  const [diaryWeather, setDiaryWeather] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [imgFile, setImgFile] = useState("");
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiaryTitle(e.target.value);
+    dispatch({ type: "SET_TITLE", payload: e.target.value });
   };
 
   const onDiaryContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDiaryContent(e.target.value);
+    dispatch({ type: "SET_CONTENT", payload: e.target.value });
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,11 +66,11 @@ const useDiary = () => {
     const reader = new FileReader();
 
     if (files && files.length === 1) {
-      setFile(files[0]);
+      dispatch({ type: "SET_FILE", payload: files[0] });
       reader.readAsDataURL(files[0]);
       reader.onloadend = () => {
         if (reader.result !== null) {
-          setImgFile(reader.result as string);
+          dispatch({ type: "SET_IMG_FILE", payload: reader.result as string });
         }
       };
     }
@@ -37,14 +78,15 @@ const useDiary = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileRemove = () => {
-    setImgFile("");
-    setFile(null);
+    dispatch({ type: "SET_IMG_FILE", payload: "" });
+    dispatch({ type: "SET_FILE", payload: null });
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const { diaryTitle, diaryContent, diaryDate, diaryWeather, file } = state;
     e.preventDefault();
     const user = auth.currentUser;
     if (!user || isLoading || diaryContent === "") return;
@@ -69,8 +111,8 @@ const useDiary = () => {
           photo: url,
         });
       }
-      setDiaryContent("");
-      setFile(null);
+      dispatch({ type: "SET_CONTNET", payload: "" });
+      dispatch({ type: "SET_FILE", payload: null });
     } catch (e) {
       console.log(e);
     } finally {
@@ -80,16 +122,23 @@ const useDiary = () => {
 
   return {
     isLoading,
-    diaryTitle,
+    diaryTitle: state.diaryTitle,
     onDiaryTitleChange,
-    diaryContent,
+    diaryContent: state.diaryContent,
     onDiaryContentChange,
-    setDiaryDate,
-    setDiaryWeather,
-    file,
-    setFile,
-    imgFile,
-    setImgFile,
+    setDiaryDate: (date: {
+      year: number | undefined;
+      month: number | undefined;
+      day: number | undefined;
+    }) => dispatch({ type: "SET_DATE", payload: date }),
+    setDiaryWeather: (weather: string) =>
+      dispatch({ type: "SET_WEATHER", payload: weather }),
+    file: state.file,
+    setFile: (file: File | null) =>
+      dispatch({ type: "SET_FILE", payload: file }),
+    imgFile: state.imgFile,
+    setImgFile: (imgFile: string) =>
+      dispatch({ type: "SET_IMG_FILE", payload: imgFile }),
     onFileChange,
     onSubmit,
     fileInputRef,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 interface diaryWeatherType {
-  setDiaryWeather: React.Dispatch<React.SetStateAction<string>>;
+  setDiaryWeather: (weather: string) => void;
 }
 
 const Weather = React.memo(({ setDiaryWeather }: diaryWeatherType) => {
