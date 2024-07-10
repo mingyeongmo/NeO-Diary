@@ -16,14 +16,6 @@ interface diaryCalendarType {
 
 const Calendar = React.memo(({ setDiaryDate }: diaryCalendarType) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [dateData, setDateData] = useState({
-    year: selectedDate?.getFullYear(),
-    month:
-      selectedDate?.getMonth() !== undefined
-        ? selectedDate.getMonth() + 1
-        : undefined,
-    day: selectedDate?.getDate(),
-  });
 
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
@@ -46,31 +38,25 @@ const Calendar = React.memo(({ setDiaryDate }: diaryCalendarType) => {
 
   useEffect(() => {
     if (selectedDate) {
-      setDateData({
+      const newDateData = {
         year: selectedDate.getFullYear(),
         month: selectedDate.getMonth() + 1,
         day: selectedDate.getDate(),
-      });
+      };
+      setDiaryDate(newDateData);
     } else {
-      setDateData({
+      const emptyDateData = {
         year: undefined,
         month: undefined,
         day: undefined,
-      });
+      };
+
+      setDiaryDate(emptyDateData);
     }
   }, [selectedDate]);
 
   const handleDateChange = (date: SetStateAction<Date | null>) => {
     setSelectedDate(date);
-    setDateData({
-      year: selectedDate?.getFullYear(),
-      month:
-        selectedDate?.getMonth() !== undefined
-          ? selectedDate.getMonth() + 1
-          : undefined,
-      day: selectedDate?.getDate(),
-    });
-    setDiaryDate(dateData);
   };
 
   return (
