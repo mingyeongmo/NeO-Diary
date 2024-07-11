@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface diaryWeatherType {
@@ -6,14 +6,18 @@ interface diaryWeatherType {
 }
 
 const Weather = React.memo(({ setDiaryWeather }: diaryWeatherType) => {
-  const [weather, setWeather] = useState("날씨");
+  const [weather, setWeather] = useState("맑음");
 
   const weatherList = ["맑음", "흐림", "비"];
 
   const handleSelectWeather = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setWeather(e.target.value);
-    setDiaryWeather(e.target.value);
   };
+
+  useEffect(() => {
+    setDiaryWeather(weather);
+  }, [weather]);
+
   return (
     <WeatherContainer>
       <WeatherList onChange={handleSelectWeather} value={weather}>
