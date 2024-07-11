@@ -16,6 +16,21 @@ interface State {
   imgFile: string;
 }
 
+type ActionType =
+  | { type: "SET_TITLE"; payload: string }
+  | { type: "SET_CONTENT"; payload: string }
+  | {
+      type: "SET_DATE";
+      payload: {
+        year: number | undefined;
+        month: number | undefined;
+        day: number | undefined;
+      };
+    }
+  | { type: "SET_WEATHER"; payload: string }
+  | { type: "SET_FILE"; payload: File | null }
+  | { type: "SET_IMG_FILE"; payload: string };
+
 const initialState: State = {
   diaryTitle: "",
   diaryContent: "",
@@ -29,7 +44,7 @@ const initialState: State = {
   imgFile: "",
 };
 
-const reducer = (state: State, action: { type: string; payload: any }) => {
+const reducer = (state: State, action: ActionType) => {
   switch (action.type) {
     case "SET_TITLE":
       return { ...state, diaryTitle: action.payload };
@@ -50,8 +65,8 @@ const reducer = (state: State, action: { type: string; payload: any }) => {
 
 const useDiary = () => {
   const [isLoading, setLoading] = useState(false);
-
   const [state, dispatch] = useReducer(reducer, initialState);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: "SET_TITLE", payload: e.target.value });
@@ -75,7 +90,6 @@ const useDiary = () => {
       };
     }
   };
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileRemove = () => {
     dispatch({ type: "SET_IMG_FILE", payload: "" });
@@ -86,20 +100,21 @@ const useDiary = () => {
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const { diaryTitle, diaryContent, diaryDate, diaryWeather, file } = state;
     e.preventDefault();
+    const { diaryTitle, diaryContent, diaryDate, diaryWeather, file } = state;
     const user = auth.currentUser;
     if (!user || isLoading || diaryContent === "") return;
 
     try {
       setLoading(true);
       const doc = await addDoc(collection(db, "diary"), {
+        userId: user.uid,
         diaryTitle,
         diaryContent,
-        createdAt: diaryDate,
-        weather: diaryWeather,
-        userId: user.uid,
+        diaryDate,
+        diaryWeather,
       });
+
       if (file) {
         const locationRef = ref(
           storage,
@@ -111,7 +126,14 @@ const useDiary = () => {
           photo: url,
         });
       }
-      dispatch({ type: "SET_CONTNET", payload: "" });
+      dispatch({ type: "SET_TITLE", payload: "" });
+      dispatch({ type: "SET_CONTENT", payload: "" });
+      dispatch({
+        type: "SET_DATE",
+        payload: { year: undefined, month: undefined, day: undefined },
+      });
+      dispatch({ type: "SET_WEATHER", payload: "" });
+      dispatch({ type: "SET_IMG_FILE", payload: "" });
       dispatch({ type: "SET_FILE", payload: null });
     } catch (e) {
       console.log(e);
