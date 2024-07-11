@@ -2,12 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import Calendar from "./Calendar/Calendar";
 import Weather from "./Weather/Weather";
-import useDiary from "hooks/useDiary";
 
-const TopArea = () => {
-  const { setDiaryDate, diaryTitle, onDiaryTitleChange, setDiaryWeather } =
-    useDiary();
+interface TopAreaProps {
+  setDiaryDate: (date: {
+    year: number | undefined;
+    month: number | undefined;
+    day: number | undefined;
+  }) => void;
+  diaryTitle: string;
+  onDiaryTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setDiaryWeather: (weather: string) => void;
+}
 
+const TopArea = ({
+  setDiaryDate,
+  diaryTitle,
+  onDiaryTitleChange,
+  setDiaryWeather,
+}: TopAreaProps) => {
   return (
     <TopAreaContainer>
       <Top>

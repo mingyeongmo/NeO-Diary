@@ -1,9 +1,11 @@
-import useDiary from "hooks/useDiary";
 import styled from "styled-components";
 
-const TextArea = () => {
-  const { diaryContent, onDiaryContentChange } = useDiary();
+interface TextAreaProps {
+  diaryContent: string;
+  onDiaryContentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
 
+const TextArea = ({ diaryContent, onDiaryContentChange }: TextAreaProps) => {
   return (
     <TextAreaContainer>
       <textarea

@@ -1,11 +1,22 @@
 import React from "react";
 import { Delete, Edit } from "components/Icon/Icons";
 import styled from "styled-components";
-import useDiary from "hooks/useDiary";
 
-const PhotoArea = () => {
-  const { handleFileRemove, onFileChange, fileInputRef, file, imgFile } =
-    useDiary();
+interface PhotoAreaProps {
+  handleFileRemove: () => void;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  file: File | null;
+  imgFile: string;
+}
+
+const PhotoArea = ({
+  handleFileRemove,
+  onFileChange,
+  fileInputRef,
+  file,
+  imgFile,
+}: PhotoAreaProps) => {
   return (
     <PhotoAreaContainer>
       <div
