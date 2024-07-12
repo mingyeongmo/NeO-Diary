@@ -42,8 +42,12 @@ const Diary = () => {
             diaryContent={diaryContent}
             onDiaryContentChange={onDiaryContentChange}
           />
+          <S.BtnArea>
+            <S.Button type="submit">
+              {isLoading ? "생성중" : "일기 생성"}
+            </S.Button>
+          </S.BtnArea>
         </S.Content>
-        <S.Button type="submit">{isLoading ? "생성중" : "일기 생성"}</S.Button>
       </S.Form>
     </S.Section>
   );

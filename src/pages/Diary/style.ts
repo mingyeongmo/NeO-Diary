@@ -20,6 +20,7 @@ export const Form = styled.form`
 export const Content = styled.div`
   width: 100%;
   height: 100%;
+  /* margin-bottom: 20px; */
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -28,4 +29,21 @@ export const Content = styled.div`
   overflow: hidden;
 `;
 
-export const Button = styled.button``;
+export const BtnArea = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 10px 0;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Button = styled.button`
+  width: 150px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #a97bf5;
+  border: none;
+  cursor: pointer;
+`;
