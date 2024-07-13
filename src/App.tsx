@@ -13,33 +13,41 @@ import Posts from "components/Post/posts";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
+    element: <Layout />,
     children: [
       {
         path: "",
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/diary/list/:month",
-        element: <Posts />,
+        path: "diary/list/:month",
+        element: (
+          <ProtectedRoute>
+            <Posts />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/diary/write",
-        element: <Diary />,
+        path: "diary/write",
+        element: (
+          <ProtectedRoute>
+            <Diary />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
   },
 ]);
 
@@ -65,7 +73,6 @@ const Wrapper = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
-  background: #fafafa;
 `;
 
 export default App;
