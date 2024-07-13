@@ -31,7 +31,7 @@ const TextArea = ({ diaryContent, onDiaryContentChange }: TextAreaProps) => {
 const TextAreaContainer = styled.div`
   width: auto;
   height: 100%;
-  margin: 35px;
+  margin: 35px 35px 0;
 `;
 
 export default TextArea;

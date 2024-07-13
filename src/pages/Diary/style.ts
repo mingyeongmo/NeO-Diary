@@ -1,29 +1,24 @@
 import styled from "styled-components";
 
-export const Section = styled.section`
+export const DiaryContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
 `;
 
 export const Form = styled.form`
   width: 100%;
-  height: 100%;
-  max-width: 700px;
-  margin: 50px auto;
-
+  max-width: 750px;
+  margin: 30px auto;
   gap: 10px;
 `;
 
 export const Content = styled.div`
   width: 100%;
-  height: 100%;
-  /* margin-bottom: 20px; */
+  height: 1050px;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border-radius: 20px;
   background: #fff;
   overflow: hidden;
@@ -41,9 +36,10 @@ export const Button = styled.button`
   width: 150px;
   height: 30px;
   font-size: 1rem;
+  border-radius: 10px;
   font-weight: 600;
   color: white;
-  background: #a97bf5;
+  background: #9990ff;
   border: none;
   cursor: pointer;
 `;

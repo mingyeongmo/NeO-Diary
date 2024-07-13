@@ -3,6 +3,7 @@ import TopArea from "./TopArea";
 import PhotoArea from "./PhotoArea";
 import TextArea from "./TextArea";
 import * as S from "./style";
+import Header from "components/Header";
 
 const Diary = () => {
   const {
@@ -22,7 +23,7 @@ const Diary = () => {
   } = useDiary();
 
   return (
-    <S.Section>
+    <S.DiaryContainer>
       <S.Form onSubmit={onSubmit}>
         <S.Content>
           <TopArea
@@ -49,7 +50,7 @@ const Diary = () => {
           </S.BtnArea>
         </S.Content>
       </S.Form>
-    </S.Section>
+    </S.DiaryContainer>
   );
 };
 

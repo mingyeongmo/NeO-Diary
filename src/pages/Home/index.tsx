@@ -6,7 +6,6 @@ import styled from "styled-components";
 const Home = () => {
   return (
     <HomeContainer>
-      <Header />
       <h1>나의 일기</h1>
       <Link to="/diary/write">일기 쓰러가기</Link>
       <h1>2024</h1>
