@@ -3,7 +3,6 @@ import TopArea from "./TopArea";
 import PhotoArea from "./PhotoArea";
 import TextArea from "./TextArea";
 import * as S from "./style";
-import Header from "components/Header";
 
 const Diary = () => {
   const {
