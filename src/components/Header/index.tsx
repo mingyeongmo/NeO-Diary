@@ -38,7 +38,9 @@ const Header = () => {
           <Span>
             <Link to="/diary/write">일기 작성</Link>
           </Span>
-          <Span onClick={LogOut}>로그 아웃</Span>
+          <Span onClick={LogOut} style={{ cursor: "pointer" }}>
+            로그 아웃
+          </Span>
         </MenuBar>
       </Content>
     </HeaderContainer>
