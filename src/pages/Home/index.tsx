@@ -1,19 +1,24 @@
-import { Link } from "react-router-dom";
-import Header from "components/Header";
-import Month from "components/Month/Month";
+import DateSet from "./DateSet";
+import Posts from "components/Post/posts";
+import { useState } from "react";
 import styled from "styled-components";
 
 const Home = () => {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+
   return (
     <HomeContainer>
-      <h1>나의 일기</h1>
-      <Link to="/diary/write">일기 쓰러가기</Link>
-      <h1>2024</h1>
-      <Month />
+      <DateSet
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+      />
+      <Posts selectedYear={selectedYear} selectedMonth={selectedMonth} />
     </HomeContainer>
   );
 };
-
 const HomeContainer = styled.div`
   width: 100%;
 `;

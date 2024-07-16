@@ -24,14 +24,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "diary/list/:month",
-        element: (
-          <ProtectedRoute>
-            <Posts />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "diary/write",
         element: (
           <ProtectedRoute>
