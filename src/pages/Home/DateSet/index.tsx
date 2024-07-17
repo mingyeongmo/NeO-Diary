@@ -1,5 +1,6 @@
-import { getYear } from "date-fns";
 import { useState } from "react";
+import { getYear } from "date-fns";
+import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import styled from "styled-components";
 
 interface DateSetProps {
@@ -24,6 +25,16 @@ const DateSet = ({
 
   return (
     <DateSettingContainer>
+      <LeftBtn
+        style={{
+          fill: "#9990FF",
+          width: "20px",
+          height: "20px",
+          stroke: "#9990FF",
+          strokeWidth: "1",
+        }}
+      />
+
       <YearSet
         defaultValue={selectedYear}
         onChange={(e) => setSelectedYear(parseInt(e.target.value))}
@@ -44,6 +55,15 @@ const DateSet = ({
           </option>
         ))}
       </MonthSet>
+      <RightBtn
+        style={{
+          fill: "#9990FF",
+          width: "20px",
+          height: "20px",
+          stroke: "#9990FF",
+          strokeWidth: "1",
+        }}
+      />
     </DateSettingContainer>
   );
 };
@@ -68,6 +88,7 @@ const YearSet = styled.select`
   border-radius: 10px;
   outline: none;
   cursor: pointer;
+  margin-left: 20px;
 `;
 
 const MonthSet = styled.select`
@@ -82,7 +103,7 @@ const MonthSet = styled.select`
   border-radius: 10px;
   outline: none;
   cursor: pointer;
-  margin: 10px;
+  margin: 0 20px 0 10px;
 `;
 
 export default DateSet;

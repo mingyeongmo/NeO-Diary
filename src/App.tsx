@@ -8,7 +8,6 @@ import Layout from "components/layout";
 import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
-import Posts from "components/Post/posts";
 
 const router = createBrowserRouter([
   {
