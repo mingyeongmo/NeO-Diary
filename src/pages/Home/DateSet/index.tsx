@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getYear } from "date-fns";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import styled from "styled-components";
@@ -23,20 +23,39 @@ const DateSet = ({
 
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
+  const decreaseMonth = () => {
+    if (selectedMonth === 1) {
+      setSelectedYear((prevYear) => prevYear - 1);
+      setSelectedMonth(12);
+    } else {
+      setSelectedMonth((prevMonth) => prevMonth - 1);
+    }
+  };
+
+  const increaseMonth = () => {
+    if (selectedMonth === 12) {
+      setSelectedYear((prevYear) => prevYear + 1);
+      setSelectedMonth(1);
+    } else {
+      setSelectedMonth((prevMonth) => prevMonth + 1);
+    }
+  };
   return (
     <DateSettingContainer>
-      <LeftBtn
-        style={{
-          fill: "#9990FF",
-          width: "20px",
-          height: "20px",
-          stroke: "#9990FF",
-          strokeWidth: "1",
-        }}
-      />
-
+      <div onClick={decreaseMonth}>
+        <LeftBtn
+          style={{
+            fill: "#9990FF",
+            width: "20px",
+            height: "20px",
+            stroke: "#9990FF",
+            strokeWidth: "1",
+            cursor: "pointer",
+          }}
+        />
+      </div>
       <YearSet
-        defaultValue={selectedYear}
+        value={selectedYear}
         onChange={(e) => setSelectedYear(parseInt(e.target.value))}
       >
         {years.map((year) => (
@@ -46,7 +65,7 @@ const DateSet = ({
         ))}
       </YearSet>
       <MonthSet
-        defaultValue={selectedMonth}
+        value={selectedMonth}
         onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
       >
         {months.map((month) => (
@@ -55,15 +74,18 @@ const DateSet = ({
           </option>
         ))}
       </MonthSet>
-      <RightBtn
-        style={{
-          fill: "#9990FF",
-          width: "20px",
-          height: "20px",
-          stroke: "#9990FF",
-          strokeWidth: "1",
-        }}
-      />
+      <div onClick={increaseMonth}>
+        <RightBtn
+          style={{
+            fill: "#9990FF",
+            width: "20px",
+            height: "20px",
+            stroke: "#9990FF",
+            strokeWidth: "1",
+            cursor: "pointer",
+          }}
+        />
+      </div>
     </DateSettingContainer>
   );
 };
