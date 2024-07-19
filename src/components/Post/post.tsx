@@ -1,14 +1,30 @@
+import styled from "styled-components";
 import { PostType } from "./posts";
-import * as S from "./style";
 
-const Post = ({ weather, diary, photo }: PostType) => {
+const Post = ({ diaryTitle, diaryDate, diaryWeather, photo }: PostType) => {
   return (
-    <>
-      <S.Weather></S.Weather>
-      {photo ? <S.Photo src={photo} /> : null}
-      <S.Content>{diary}</S.Content>
-    </>
+    <Diary>
+      <td className="date">
+        {diaryDate.year}-{diaryDate.month}-{diaryDate.day}
+      </td>
+      <td className="title">{diaryTitle}</td>
+    </Diary>
   );
 };
+
+const Diary = styled.tr`
+  width: 100%;
+  height: 70px;
+  td {
+    vertical-align: center;
+  }
+  .date {
+    width: 30%;
+  }
+  .title {
+    width: 70%;
+  }
+  /* border: 1px solid black; */
+`;
 
 export default Post;
