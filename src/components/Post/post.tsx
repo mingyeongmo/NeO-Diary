@@ -1,13 +1,20 @@
 import styled from "styled-components";
 import { PostType } from "./posts";
 
-const Post = ({ diaryTitle, diaryDate, diaryWeather, photo }: PostType) => {
+const Post = ({
+  diaryTitle,
+  diaryDate,
+  diaryWeather,
+  photo,
+  index,
+}: PostType & { index: number }) => {
   return (
     <Diary>
-      <td className="date">
+      <td>{index}</td>
+      <td>{diaryTitle}</td>
+      <td>
         {diaryDate.year}-{diaryDate.month}-{diaryDate.day}
       </td>
-      <td className="title">{diaryTitle}</td>
     </Diary>
   );
 };
@@ -16,14 +23,12 @@ const Diary = styled.tr`
   width: 100%;
   height: 70px;
   td {
-    vertical-align: center;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid black;
+    /* border: 1px solid black; */
   }
-  .date {
-    width: 30%;
-  }
-  .title {
-    width: 70%;
-  }
+
   /* border: 1px solid black; */
 `;
 
