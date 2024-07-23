@@ -8,7 +8,6 @@ import Layout from "components/layout";
 import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
-import Footer from "components/Footer";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +55,6 @@ function App() {
   return (
     <Wrapper>
       {isLoading ? "Loading" : <RouterProvider router={router} />}
-      <Footer />
     </Wrapper>
   );
 }
@@ -67,6 +65,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 export default App;

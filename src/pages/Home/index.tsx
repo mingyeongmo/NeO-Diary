@@ -21,7 +21,7 @@ const Home = () => {
 };
 const HomeContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 800px;
   margin-top: 50px;
 `;
 

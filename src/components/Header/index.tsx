@@ -47,12 +47,13 @@ const Header = () => {
   );
 };
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   width: 100%;
   height: 50px;
   padding: 0 300px;
   box-sizing: border-box;
   background: #9990ff;
+  flex-shrink: 0;
 `;
 
 const Content = styled.div`

@@ -1,12 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 import styled from "styled-components";
 
 export default function Layout() {
   return (
     <LayoutContainer>
       <Header />
-      <Outlet />
+      <Content>
+        <Outlet />
+      </Content>
+      <Footer />
     </LayoutContainer>
   );
 }
@@ -16,5 +20,9 @@ const LayoutContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
+`;
+
+const Content = styled.div`
+  flex: 1;
 `;

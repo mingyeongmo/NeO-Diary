@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 450px;
 
   p {
     font-size: 18px;
@@ -20,11 +20,11 @@ export const Comment = styled.div`
 `;
 
 export const Form = styled.form`
-  margin-top: 200px;
+  width: 450px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 `;
 
 export const Title = styled.h2`

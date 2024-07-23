@@ -28,6 +28,9 @@ const Footer = () => {
 };
 
 const FooterContainer = styled.footer`
+  width: 100%;
+  height: 90px;
+  flex-shrink: 0;
   border-top: 1px solid #f0f0f0;
 
   .footer_div {
