@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { getYear } from "date-fns";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import styled from "styled-components";
@@ -45,10 +44,8 @@ const DateSet = ({
       <div onClick={decreaseMonth}>
         <LeftBtn
           style={{
-            fill: "#9990FF",
             width: "20px",
             height: "20px",
-            stroke: "#9990FF",
             strokeWidth: "1",
             cursor: "pointer",
           }}
@@ -77,10 +74,8 @@ const DateSet = ({
       <div onClick={increaseMonth}>
         <RightBtn
           style={{
-            fill: "#9990FF",
             width: "20px",
             height: "20px",
-            stroke: "#9990FF",
             strokeWidth: "1",
             cursor: "pointer",
           }}
@@ -100,10 +95,10 @@ const DateSettingContainer = styled.nav`
 
 const YearSet = styled.select`
   box-sizing: border-box;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
+  font-weight: 500;
   width: auto;
   height: 50px;
-  color: #9990ff;
   background: #fafafa;
   text-align: center;
   border: none;
@@ -115,10 +110,9 @@ const YearSet = styled.select`
 
 const MonthSet = styled.select`
   box-sizing: border-box;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   width: auto;
   height: 50px;
-  color: #9990ff;
   background: #fafafa;
   text-align: center;
   border: none;
