@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import Post from "./post";
-import styled from "styled-components";
 import Pagination from "./Pagination";
+import styled from "styled-components";
 
 export interface PostType {
   id: string;
@@ -25,6 +25,7 @@ interface PostsProps {
 const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
   const [diaryList, setDiaryList] = useState<PostType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
 
@@ -63,39 +64,49 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
   const paginatedDiaries = diaryList.slice(startIndex, endIndex);
 
   return (
-    <PostsContainer>
-      <PostBox>
-        <PostHeader>
-          <tr>
-            <th className="number">번호</th>
-            <th className="title">제목</th>
-            <th className="date">날짜</th>
-          </tr>
-        </PostHeader>
-        <PostBody>
-          {loading ? (
-            <LoadingMessage>로딩 중...</LoadingMessage>
-          ) : diaryList.length ? (
-            paginatedDiaries.map((diary, index) => (
-              <Post key={diary.id} {...diary} index={startIndex + index + 1} />
-            ))
-          ) : (
-            <p>일기를 작성해주세요!</p>
-          )}
-        </PostBody>
-      </PostBox>
+    <>
+      <PostsContainer>
+        <PostBox>
+          <PostHeader>
+            <tr>
+              <th className="number">번호</th>
+              <th className="title">제목</th>
+              <th className="date">날짜</th>
+            </tr>
+          </PostHeader>
+          <PostBody>
+            {loading ? (
+              <LoadingMessage>
+                <td colSpan={3}>로딩 중...</td>
+              </LoadingMessage>
+            ) : diaryList.length ? (
+              paginatedDiaries.map((diary, index) => (
+                <Post
+                  key={diary.id}
+                  {...diary}
+                  index={startIndex + index + 1}
+                />
+              ))
+            ) : (
+              <NonePostMessage>
+                <td colSpan={3}>작성된 일기가 없어요..</td>
+              </NonePostMessage>
+            )}
+          </PostBody>
+        </PostBox>
+      </PostsContainer>
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
       />
-    </PostsContainer>
+    </>
   );
 };
 
 const PostsContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,22 +114,22 @@ const PostsContainer = styled.div`
 
 const PostBox = styled.table`
   width: 600px;
-  /* height: 700px; */
   border-bottom: 1px solid black;
   table-layout: fixed;
+  display: table;
 `;
 
 const PostHeader = styled.thead`
   width: 100%;
   height: 40px;
   font-size: 1.2rem;
+  font-weight: 600;
   tr {
     background: #9990ff;
     color: white;
   }
   th {
     vertical-align: middle;
-    /* border: 1px solid black; */
     border-left: none;
     border-right: none;
   }
@@ -138,6 +149,32 @@ const PostBody = styled.tbody`
   height: auto;
 `;
 
-const LoadingMessage = styled.p``;
+const LoadingMessage = styled.tr`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+
+  td {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+`;
+
+const NonePostMessage = styled.tr`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+
+  td {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+`;
 
 export default Posts;

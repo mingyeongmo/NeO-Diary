@@ -26,10 +26,7 @@ const Diary = styled.tr`
     text-align: center;
     vertical-align: middle;
     border-bottom: 1px solid black;
-    /* border: 1px solid black; */
   }
-
-  /* border: 1px solid black; */
 `;
 
 export default Post;
