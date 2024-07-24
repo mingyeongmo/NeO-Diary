@@ -16,6 +16,7 @@ export interface PostType {
     month: number | undefined;
     day: number | undefined;
   };
+  diaryContent: string;
 }
 interface PostsProps {
   selectedYear: number;
@@ -39,13 +40,21 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
     );
     const snapshot = await getDocs(diaryQuery);
     const diary = snapshot.docs.map((doc) => {
-      const { diaryTitle, diaryDate, photo, userId, diaryWeather } = doc.data();
+      const {
+        diaryTitle,
+        diaryDate,
+        photo,
+        userId,
+        diaryWeather,
+        diaryContent,
+      } = doc.data();
       return {
         diaryTitle,
         diaryDate,
         photo,
         userId,
         diaryWeather,
+        diaryContent,
         id: doc.id,
       };
     });
@@ -72,12 +81,13 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
               <th className="number">번호</th>
               <th className="title">제목</th>
               <th className="date">날짜</th>
+              <th className="detail">상세</th>
             </tr>
           </PostHeader>
           <PostBody>
             {loading ? (
               <LoadingMessage>
-                <td colSpan={3}>로딩 중...</td>
+                <td colSpan={4}>일기를 불러오고 있어요</td>
               </LoadingMessage>
             ) : diaryList.length ? (
               paginatedDiaries.map((diary, index) => (
@@ -89,7 +99,7 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
               ))
             ) : (
               <NonePostMessage>
-                <td colSpan={3}>작성된 일기가 없어요..</td>
+                <td colSpan={4}>작성된 일기가 없어요..</td>
               </NonePostMessage>
             )}
           </PostBody>
@@ -113,7 +123,7 @@ const PostsContainer = styled.div`
 `;
 
 const PostBox = styled.table`
-  width: 600px;
+  width: 700px;
   border-bottom: 1px solid black;
   table-layout: fixed;
   display: table;
@@ -136,11 +146,16 @@ const PostHeader = styled.thead`
   .number {
     width: 10%;
   }
-  .date {
-    width: 25%;
-  }
   .title {
-    width: 65%;
+    width: 55%;
+  }
+
+  .date {
+    width: 20%;
+  }
+
+  .detail {
+    width: 15%;
   }
 `;
 

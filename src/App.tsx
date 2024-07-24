@@ -8,6 +8,7 @@ import Layout from "components/layout";
 import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
+import DiaryDetail from "components/Post/DiaryDetail";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "diary/detail/:id",
+        element: <DiaryDetail />,
       },
     ],
   },
