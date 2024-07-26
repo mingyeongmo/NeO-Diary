@@ -4,10 +4,13 @@ import * as WriteStyle from "../../../pages/Diary/style";
 import styled from "styled-components";
 import ReadOnlyForm from "./ReadOnlyForm";
 import EditForm from "./EditForm";
+import useDiary from "hooks/useDiary";
 
 const DiaryDetail = () => {
   const { state } = useLocation();
   const { diaryTitle, diaryDate, diaryWeather, photo, diaryContent } = state;
+
+  const { onSubmit, onDiaryTitleChange } = useDiary();
 
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -26,6 +29,7 @@ const DiaryDetail = () => {
         {isEditMode ? (
           <EditForm
             diaryTitle={diaryTitle}
+            onDiaryTitleChange={onDiaryTitleChange}
             diaryDate={diaryDate}
             diaryWeather={diaryWeather}
             photo={photo}

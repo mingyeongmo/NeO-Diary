@@ -54,9 +54,8 @@ const ReadOnlyForm = ({
             outline: "none",
             borderRadius: "15px",
           }}
-        >
-          {diaryContent}
-        </textarea>
+          value={diaryContent}
+        />
       </S.TextAreaContainer>
       <WriteStyle.BtnArea>
         <WriteStyle.Button onClick={onEdit}>일기 수정</WriteStyle.Button>
