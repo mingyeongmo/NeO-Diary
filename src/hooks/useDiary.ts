@@ -1,5 +1,5 @@
 import { useReducer, useRef, useState } from "react";
-import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
@@ -29,7 +29,8 @@ type ActionType =
     }
   | { type: "SET_WEATHER"; payload: string }
   | { type: "SET_FILE"; payload: File | null }
-  | { type: "SET_IMG_FILE"; payload: string };
+  | { type: "SET_IMG_FILE"; payload: string }
+  | { type: "SET_INITIAL_STATE"; payload: State };
 
 const initialState: State = {
   diaryTitle: "",
@@ -58,6 +59,8 @@ const reducer = (state: State, action: ActionType) => {
       return { ...state, file: action.payload };
     case "SET_IMG_FILE":
       return { ...state, imgFile: action.payload };
+    case "SET_INITIAL_STATE":
+      return { ...action.payload };
     default:
       return state;
   }
@@ -126,15 +129,46 @@ const useDiary = () => {
           photo: url,
         });
       }
-      dispatch({ type: "SET_TITLE", payload: "" });
-      dispatch({ type: "SET_CONTENT", payload: "" });
-      dispatch({
-        type: "SET_DATE",
-        payload: { year: undefined, month: undefined, day: undefined },
-      });
-      dispatch({ type: "SET_WEATHER", payload: "" });
-      dispatch({ type: "SET_IMG_FILE", payload: "" });
-      dispatch({ type: "SET_FILE", payload: null });
+      dispatch({ type: "SET_INITIAL_STATE", payload: initialState });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateDiary = async (docId: string, diaryTitle: string) => {
+    const { diaryContent, diaryDate, diaryWeather, file } = state;
+    const user = auth.currentUser;
+    console.log("이거 실행은 된거냐?", diaryTitle, {
+      docId,
+      diaryContent,
+      file,
+    });
+    if (!user || isLoading) return;
+
+    try {
+      console.log("실행", diaryTitle);
+      setLoading(true);
+      const docRef = doc(db, "diary", docId);
+      let updatedData: any = {
+        diaryTitle,
+        // diaryContent,
+        // diaryDate,
+        // diaryWeather,
+      };
+
+      if (file) {
+        const locationRef = ref(
+          storage,
+          `diary/${user.uid}-${user.displayName}/${docId}`
+        );
+        const result = await uploadBytes(locationRef, file);
+        const url = await getDownloadURL(result.ref);
+        updatedData = { ...updatedData, photo: url };
+      }
+
+      await updateDoc(docRef, updatedData);
     } catch (e) {
       console.log(e);
     } finally {
@@ -163,6 +197,7 @@ const useDiary = () => {
       dispatch({ type: "SET_IMG_FILE", payload: imgFile }),
     onFileChange,
     onSubmit,
+    updateDiary,
     fileInputRef,
     handleFileRemove,
   };

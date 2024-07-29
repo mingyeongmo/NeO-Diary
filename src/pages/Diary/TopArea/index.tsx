@@ -29,7 +29,7 @@ const TopArea = ({
           onChange={onDiaryTitleChange}
           type="text"
           placeholder="일기 제목"
-          maxLength={50}
+          maxLength={15}
         />
         <Weather setDiaryWeather={setDiaryWeather} />
       </Top>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EditTextArea from "./EditTextArea";
 import EditPhotoArea from "./EditPhotoArea";
 import EditTopArea from "./EditTopArea";
@@ -16,33 +16,63 @@ interface EditFormProps {
   diaryWeather: string;
   photo: string;
   diaryContent: string;
-  onSave: () => void;
+  // onSave: () => void;
   onCancel: () => void;
+  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  updateDiary: (
+    // e: React.FormEvent<HTMLFormElement>,
+    docId: string,
+    diaryTitle: string
+  ) => Promise<void>;
+  id: string;
 }
 
 const EditForm = ({
   diaryTitle,
+  onDiaryTitleChange,
   diaryDate,
   diaryWeather,
   photo,
   diaryContent,
-  onSave,
   onCancel,
+  id,
+  setIsEditMode,
+  updateDiary,
 }: EditFormProps) => {
+  const [editTitle, setEditTitle] = useState(diaryTitle);
+
+  const handleSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // 저장 로직
+    console.log({ id });
+    await updateDiary(id, editTitle);
+    setIsEditMode(false);
+  };
+
+  useEffect(() => {
+    setEditTitle(diaryTitle);
+  }, [diaryTitle]);
+
   return (
-    <Form>
+    <Form onSubmit={handleSaveClick}>
       <WriteStyle.Content>
         <EditTopArea
-          diaryTitle={diaryTitle}
+          diaryTitle={editTitle}
+          onDiaryTitleChange={(e) => setEditTitle(e.target.value)}
+          // onDiaryTitleChange={onDiaryTitleChange}
           diaryDate={diaryDate}
           diaryWeather={diaryWeather}
         />
         <EditPhotoArea photo={photo} />
         <EditTextArea diaryContent={diaryContent} />
-        <WriteStyle.BtnArea>
-          <WriteStyle.Button onClick={onCancel}>취소</WriteStyle.Button>
-          <WriteStyle.Button onClick={onSave}>저장</WriteStyle.Button>
-        </WriteStyle.BtnArea>
+        <BtnArea>
+          <Button onClick={onCancel} variant="cancel">
+            취소
+          </Button>
+          <Button type="submit" variant="save">
+            저장
+          </Button>
+        </BtnArea>
       </WriteStyle.Content>
     </Form>
   );
@@ -51,6 +81,28 @@ const EditForm = ({
 const Form = styled.form`
   width: 100%;
   height: 100%;
+`;
+
+const BtnArea = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Button = styled.button<{ variant: "cancel" | "save" }>`
+  width: 150px;
+  height: 30px;
+  font-size: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  color: white;
+  background: ${(props) => (props.variant === "cancel" ? "gray" : "#9990ff")};
+
+  border: none;
+  cursor: pointer;
 `;
 
 export default EditForm;

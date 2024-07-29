@@ -8,19 +8,24 @@ import useDiary from "hooks/useDiary";
 
 const DiaryDetail = () => {
   const { state } = useLocation();
-  const { diaryTitle, diaryDate, diaryWeather, photo, diaryContent } = state;
+  const { id, diaryTitle, diaryDate, diaryWeather, photo, diaryContent } =
+    state;
 
-  const { onSubmit, onDiaryTitleChange } = useDiary();
+  const {
+    updateDiary,
+    onDiaryTitleChange,
+    onDiaryContentChange,
+    setDiaryDate,
+    setDiaryWeather,
+    onFileChange,
+    fileInputRef,
+    handleFileRemove,
+  } = useDiary();
 
   const [isEditMode, setIsEditMode] = useState(false);
 
   const handleEditMode = () => {
     setIsEditMode(true);
-  };
-
-  const handleSaveClick = () => {
-    // 저장 로직
-    setIsEditMode(false);
   };
 
   return (
@@ -34,7 +39,9 @@ const DiaryDetail = () => {
             diaryWeather={diaryWeather}
             photo={photo}
             diaryContent={diaryContent}
-            onSave={handleSaveClick}
+            setIsEditMode={setIsEditMode}
+            updateDiary={updateDiary}
+            id={id}
             onCancel={() => setIsEditMode(false)}
           />
         ) : (

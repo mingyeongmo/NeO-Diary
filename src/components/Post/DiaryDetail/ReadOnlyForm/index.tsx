@@ -1,4 +1,3 @@
-import React from "react";
 import * as WriteStyle from "../../../../pages/Diary/style";
 import * as S from "../style";
 

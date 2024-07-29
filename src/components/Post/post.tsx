@@ -3,6 +3,7 @@ import { PostType } from "./posts";
 import { useNavigate } from "react-router-dom";
 
 const Post = ({
+  id,
   diaryTitle,
   diaryDate,
   diaryWeather,
@@ -15,7 +16,14 @@ const Post = ({
   const handleDetailClick = () => {
     const { year, month, day } = diaryDate;
     navigate(`/diary/detail/${year}-${month}-${day}`, {
-      state: { diaryTitle, diaryDate, diaryWeather, photo, diaryContent },
+      state: {
+        id,
+        diaryTitle,
+        diaryDate,
+        diaryWeather,
+        photo,
+        diaryContent,
+      },
     });
   };
 

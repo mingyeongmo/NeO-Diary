@@ -40,7 +40,7 @@ const EditPhotoArea = ({ photo }: EditPhotoAreaProps) => {
         <AttachFileInput
           onChange={onFileChange}
           ref={fileInputRef}
-          required
+          // required
           type="file"
           id="file"
           accept="image/*"

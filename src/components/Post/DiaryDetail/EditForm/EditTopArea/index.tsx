@@ -5,6 +5,7 @@ import EditDateArea from "./EditDateArea";
 
 interface EditTopAreaProps {
   diaryTitle: string;
+  onDiaryTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   diaryDate: {
     year: number | undefined;
     month: number | undefined;
@@ -15,18 +16,21 @@ interface EditTopAreaProps {
 
 const EditTopArea = ({
   diaryTitle,
+  onDiaryTitleChange,
   diaryDate,
   diaryWeather,
 }: EditTopAreaProps) => {
-  const [editTitle, setEditTitle] = useState(diaryTitle);
+  // const [editTitle, setEditTitle] = useState(diaryTitle);
 
   return (
     <TopAreaContainer>
       <div className="top">
         <EditDateArea diaryDate={diaryDate} />
         <TitleInput
-          value={editTitle}
-          onChange={(e) => setEditTitle(e.target.value)}
+          value={diaryTitle}
+          // value={editTitle}
+          // onChange={(e) => setEditTitle(e.target.value)}
+          onChange={onDiaryTitleChange}
           type="text"
           maxLength={10}
         />
@@ -57,6 +61,7 @@ const TitleInput = styled.input`
   outline: none;
   text-align: center;
   flex: 1;
+
   &::placeholder {
     text-align: center;
   }
