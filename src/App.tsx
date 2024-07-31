@@ -9,6 +9,7 @@ import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
 import DiaryDetail from "components/Post/DiaryDetail";
+import { RecoilRoot } from "recoil";
 
 const router = createBrowserRouter([
   {
@@ -58,9 +59,11 @@ function App() {
   }, []);
 
   return (
-    <Wrapper>
-      {isLoading ? "Loading" : <RouterProvider router={router} />}
-    </Wrapper>
+    <RecoilRoot>
+      <Wrapper>
+        {isLoading ? "Loading" : <RouterProvider router={router} />}
+      </Wrapper>
+    </RecoilRoot>
   );
 }
 
