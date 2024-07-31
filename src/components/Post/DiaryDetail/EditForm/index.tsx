@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
-import EditTextArea from "./EditTextArea";
+import React, { useState } from "react";
 import EditPhotoArea from "./EditPhotoArea";
 import EditTopArea from "./EditTopArea";
 import * as WriteStyle from "../../../../pages/Diary/style";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import {
+  editDiaryContentState,
+  editDiaryDateState,
+  editDiaryFileState,
+  editDiaryTitleState,
+  editDiaryWeatherState,
+} from "recoil/atoms/editDiaryState";
+import EditContentArea from "./EditContentArea";
 
 interface EditFormProps {
   diaryTitle: string;
-  onDiaryTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   diaryDate: {
     year: number | undefined;
     month: number | undefined;
@@ -16,20 +23,25 @@ interface EditFormProps {
   diaryWeather: string;
   photo: string;
   diaryContent: string;
-  // onSave: () => void;
   onCancel: () => void;
   setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   updateDiary: (
-    // e: React.FormEvent<HTMLFormElement>,
     docId: string,
-    diaryTitle: string
+    diaryTitle: string,
+    diaryDate: {
+      year: number | undefined;
+      month: number | undefined;
+      day: number | undefined;
+    },
+    diaryWeather: string,
+    diaryContent: string,
+    file: File | null
   ) => Promise<void>;
   id: string;
 }
 
 const EditForm = ({
   diaryTitle,
-  onDiaryTitleChange,
   diaryDate,
   diaryWeather,
   photo,
@@ -39,32 +51,40 @@ const EditForm = ({
   setIsEditMode,
   updateDiary,
 }: EditFormProps) => {
-  const [editTitle, setEditTitle] = useState(diaryTitle);
+  const editTitle = useRecoilValue(editDiaryTitleState);
+  const editDate = useRecoilValue(editDiaryDateState);
+  const editWeather = useRecoilValue(editDiaryWeatherState);
+  const file = useRecoilValue(editDiaryFileState);
+  const editContent = useRecoilValue(editDiaryContentState);
 
   const handleSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 저장 로직
-    console.log({ id });
-    await updateDiary(id, editTitle);
+    const formattedDate = {
+      year: editDate ? editDate.getFullYear() : undefined,
+      month: editDate ? editDate.getMonth() + 1 : undefined,
+      day: editDate ? editDate.getDate() : undefined,
+    };
+    await updateDiary(
+      id,
+      editTitle,
+      formattedDate,
+      editWeather,
+      editContent,
+      file
+    );
     setIsEditMode(false);
   };
-
-  useEffect(() => {
-    setEditTitle(diaryTitle);
-  }, [diaryTitle]);
 
   return (
     <Form onSubmit={handleSaveClick}>
       <WriteStyle.Content>
         <EditTopArea
-          diaryTitle={editTitle}
-          onDiaryTitleChange={(e) => setEditTitle(e.target.value)}
-          // onDiaryTitleChange={onDiaryTitleChange}
+          diaryTitle={diaryTitle}
           diaryDate={diaryDate}
           diaryWeather={diaryWeather}
         />
         <EditPhotoArea photo={photo} />
-        <EditTextArea diaryContent={diaryContent} />
+        <EditContentArea diaryContent={diaryContent} />
         <BtnArea>
           <Button onClick={onCancel} variant="cancel">
             취소

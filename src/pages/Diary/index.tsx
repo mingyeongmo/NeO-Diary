@@ -3,6 +3,7 @@ import TopArea from "./TopArea";
 import PhotoArea from "./PhotoArea";
 import TextArea from "./TextArea";
 import * as S from "./style";
+import { ChangeEvent, useCallback } from "react";
 
 const Diary = () => {
   const {
@@ -21,15 +22,40 @@ const Diary = () => {
     onDiaryContentChange,
   } = useDiary();
 
+  const memoizedSetDiaryDate = useCallback(
+    (date: {
+      year: number | undefined;
+      month: number | undefined;
+      day: number | undefined;
+    }) => {
+      setDiaryDate(date);
+    },
+    [setDiaryDate]
+  );
+
+  const memoizedOnDiaryTitleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onDiaryTitleChange(e);
+    },
+    [onDiaryTitleChange]
+  );
+
+  const memoizedSetDiaryWeather = useCallback(
+    (weather: string) => {
+      setDiaryWeather(weather);
+    },
+    [setDiaryWeather]
+  );
+
   return (
     <S.DiaryContainer>
       <S.Form onSubmit={onSubmit}>
         <S.Content>
           <TopArea
-            setDiaryDate={setDiaryDate}
+            setDiaryDate={memoizedSetDiaryDate}
             diaryTitle={diaryTitle}
-            onDiaryTitleChange={onDiaryTitleChange}
-            setDiaryWeather={setDiaryWeather}
+            onDiaryTitleChange={memoizedOnDiaryTitleChange}
+            setDiaryWeather={memoizedSetDiaryWeather}
           />
           <PhotoArea
             handleFileRemove={handleFileRemove}

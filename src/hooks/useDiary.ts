@@ -72,6 +72,7 @@ const useDiary = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("hi");
     dispatch({ type: "SET_TITLE", payload: e.target.value });
   };
 
@@ -137,15 +138,25 @@ const useDiary = () => {
     }
   };
 
-  const updateDiary = async (docId: string, diaryTitle: string) => {
-    const { diaryContent, diaryDate, diaryWeather, file } = state;
+  const updateDiary = async (
+    docId: string,
+    diaryTitle: string,
+    diaryDate: {
+      year: number | undefined;
+      month: number | undefined;
+      day: number | undefined;
+    },
+    diaryWeather: string,
+    diaryContent: string,
+    file: File | null
+  ) => {
     const user = auth.currentUser;
     console.log("이거 실행은 된거냐?", diaryTitle, {
       docId,
       diaryContent,
       file,
     });
-    if (!user || isLoading) return;
+    if (!user || isLoading || diaryContent === "") return;
 
     try {
       console.log("실행", diaryTitle);
@@ -153,9 +164,9 @@ const useDiary = () => {
       const docRef = doc(db, "diary", docId);
       let updatedData: any = {
         diaryTitle,
-        // diaryContent,
-        // diaryDate,
-        // diaryWeather,
+        diaryContent,
+        diaryDate,
+        diaryWeather,
       };
 
       if (file) {

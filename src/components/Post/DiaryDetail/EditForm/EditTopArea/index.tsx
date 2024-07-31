@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import EditWeatherArea from "./EditWeatherArea";
 import EditDateArea from "./EditDateArea";
+import { useRecoilState } from "recoil";
+import { editDiaryTitleState } from "recoil/atoms/editDiaryState";
 
 interface EditTopAreaProps {
   diaryTitle: string;
-  onDiaryTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   diaryDate: {
     year: number | undefined;
     month: number | undefined;
@@ -16,20 +17,25 @@ interface EditTopAreaProps {
 
 const EditTopArea = ({
   diaryTitle,
-  onDiaryTitleChange,
   diaryDate,
   diaryWeather,
 }: EditTopAreaProps) => {
-  // const [editTitle, setEditTitle] = useState(diaryTitle);
+  const [editTitle, setEditTitle] = useRecoilState(editDiaryTitleState);
+
+  useEffect(() => {
+    setEditTitle(diaryTitle);
+  }, [diaryTitle, setEditTitle]);
+
+  const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditTitle(e.target.value);
+  };
 
   return (
     <TopAreaContainer>
       <div className="top">
         <EditDateArea diaryDate={diaryDate} />
         <TitleInput
-          value={diaryTitle}
-          // value={editTitle}
-          // onChange={(e) => setEditTitle(e.target.value)}
+          value={editTitle}
           onChange={onDiaryTitleChange}
           type="text"
           maxLength={10}

@@ -1,19 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Edit } from "components/Icon/Icons";
 import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { editDiaryFileState } from "recoil/atoms/editDiaryState";
 
 interface EditPhotoAreaProps {
   photo: string;
 }
 
 const EditPhotoArea = ({ photo }: EditPhotoAreaProps) => {
-  const [editPhoto, setEditPhoto] = useState(photo);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [editPhoto, setEditPhoto] = useState(photo);
+  const setFile = useSetRecoilState(editDiaryFileState);
+
+  useEffect(() => {
+    setEditPhoto(photo);
+  }, [photo, setEditPhoto]);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      setFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setEditPhoto(reader.result as string);

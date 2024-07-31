@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { editDiaryWeatherState } from "recoil/atoms/editDiaryState";
 import styled from "styled-components";
 
 interface EditWeatherAreaProps {
@@ -6,7 +8,11 @@ interface EditWeatherAreaProps {
 }
 
 const EditWeatherArea = ({ diaryWeather }: EditWeatherAreaProps) => {
-  const [editWeather, setEditWeather] = useState(diaryWeather);
+  const [editWeather, setEditWeather] = useRecoilState(editDiaryWeatherState);
+
+  useEffect(() => {
+    setEditWeather(diaryWeather);
+  }, [diaryWeather, setEditWeather]);
 
   const weatherList = ["맑음", "흐림", "비"];
 

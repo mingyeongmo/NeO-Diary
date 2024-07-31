@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
 import { ko } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./DateStyle.module.scss";
+import { useRecoilState } from "recoil";
+import { editDiaryDateState } from "recoil/atoms/editDiaryState";
 
 interface EditDateAreaProps {
   diaryDate: {
@@ -21,7 +23,11 @@ const EditDateArea = ({ diaryDate }: EditDateAreaProps) => {
     diaryDate.day ?? new Date().getDate()
   );
 
-  const [editDate, setEditDate] = useState<Date | null>(initialDate);
+  const [editDate, setEditDate] = useRecoilState(editDiaryDateState);
+
+  useEffect(() => {
+    setEditDate(initialDate);
+  }, [diaryDate, setEditDate]);
 
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
