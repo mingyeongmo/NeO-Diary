@@ -2,15 +2,25 @@ import { auth } from "../../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BookIcon } from "components/Icon/Icons";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleIconClick = () => {
     window.location.href = "/";
   };
 
-  const LogOut = async () => {
+  const handleLogOut = async () => {
     const ok = window.confirm("로그아웃 하시겠습니까?");
     if (ok) {
       await auth.signOut();
@@ -38,9 +48,15 @@ const Header = () => {
           <Span>
             <Link to="/diary/write">일기 작성</Link>
           </Span>
-          <Span onClick={LogOut} style={{ cursor: "pointer" }}>
-            로그 아웃
-          </Span>
+          {isLoggedIn ? (
+            <Span onClick={handleLogOut} style={{ cursor: "pointer" }}>
+              로그아웃
+            </Span>
+          ) : (
+            <Span>
+              <Link to="/login">로그인</Link>
+            </Span>
+          )}
         </MenuBar>
       </Content>
     </HeaderContainer>
