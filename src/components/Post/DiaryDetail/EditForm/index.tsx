@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditPhotoArea from "./EditPhotoArea";
 import EditTopArea from "./EditTopArea";
 import * as WriteStyle from "../../../../pages/Diary/style";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRecoilValue } from "recoil";
 import {
   editDiaryContentState,
@@ -119,10 +119,20 @@ const Button = styled.button<{ variant: "cancel" | "save" }>`
   border-radius: 10px;
   font-weight: 600;
   color: white;
-  background: ${(props) => (props.variant === "cancel" ? "gray" : "#9990ff")};
-
   border: none;
   cursor: pointer;
+
+  ${(props) =>
+    props.variant === "cancel" &&
+    css`
+      background: "gray";
+    `}
+
+  ${(props) =>
+    props.variant === "save" &&
+    css`
+      background: "#9990ff";
+    `}
 `;
 
 export default EditForm;
