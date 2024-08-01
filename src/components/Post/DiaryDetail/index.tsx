@@ -13,8 +13,6 @@ const DiaryDetail = () => {
 
   const {
     updateDiary,
-    onDiaryTitleChange,
-    onDiaryContentChange,
     setDiaryDate,
     setDiaryWeather,
     onFileChange,
@@ -34,7 +32,6 @@ const DiaryDetail = () => {
         {isEditMode ? (
           <EditForm
             diaryTitle={diaryTitle}
-            onDiaryTitleChange={onDiaryTitleChange}
             diaryDate={diaryDate}
             diaryWeather={diaryWeather}
             photo={photo}

@@ -47,15 +47,14 @@ const Diary = styled.tr`
   td {
     text-align: center;
     vertical-align: middle;
-    border-bottom: 1px solid black;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 
 const DetailButton = styled.div`
   padding: 10px 5px;
-  background: #9990ff;
-  color: white;
-  border: 1px solid gray;
+  color: #9990ff;
+  border: 1px solid #9990ff;
   border-radius: 5px;
   cursor: pointer;
 `;

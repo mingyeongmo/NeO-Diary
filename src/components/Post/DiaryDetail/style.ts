@@ -18,7 +18,7 @@ export const TopAreaContainer = styled.div`
         display: flex;
         justify-content: center;
         width: 165px;
-        padding: 10px;
+        padding: 8px;
         border: 1px solid black;
         box-sizing: border-box;
         border-radius: 15px;
@@ -28,6 +28,7 @@ export const TopAreaContainer = styled.div`
       font-size: 2rem;
       flex: 1;
       text-align: center;
+      white-space: nowrap;
     }
     .weather {
       display: flex;

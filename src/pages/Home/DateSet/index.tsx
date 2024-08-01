@@ -51,26 +51,28 @@ const DateSet = ({
           }}
         />
       </div>
-      <YearSet
-        value={selectedYear}
-        onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-      >
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </YearSet>
-      <MonthSet
-        value={selectedMonth}
-        onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-      >
-        {months.map((month) => (
-          <option key={month} value={month}>
-            {month}
-          </option>
-        ))}
-      </MonthSet>
+      <div>
+        <YearSet
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+        >
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </YearSet>
+        <MonthSet
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+        >
+          {months.map((month) => (
+            <option key={month} value={month}>
+              {month}
+            </option>
+          ))}
+        </MonthSet>
+      </div>
       <div onClick={increaseMonth}>
         <RightBtn
           style={{
@@ -87,19 +89,18 @@ const DateSet = ({
 
 const DateSettingContainer = styled.nav`
   width: 100%;
-  height: 100px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 const YearSet = styled.select`
   box-sizing: border-box;
-  font-size: 1.7rem;
-  font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: 600;
   width: auto;
   height: 50px;
-  background: #fafafa;
   text-align: center;
   border: none;
   border-radius: 10px;
@@ -110,10 +111,10 @@ const YearSet = styled.select`
 
 const MonthSet = styled.select`
   box-sizing: border-box;
-  font-size: 1.7rem;
+  font-size: 1.4rem;
+  font-weight: 600;
   width: auto;
   height: 50px;
-  background: #fafafa;
   text-align: center;
   border: none;
   border-radius: 10px;

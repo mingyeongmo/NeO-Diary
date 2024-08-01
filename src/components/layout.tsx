@@ -24,5 +24,7 @@ const LayoutContainer = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
+  justify-content: center;
   flex: 1;
 `;

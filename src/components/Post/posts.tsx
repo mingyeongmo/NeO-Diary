@@ -123,8 +123,7 @@ const PostsContainer = styled.div`
 `;
 
 const PostBox = styled.table`
-  width: 700px;
-  border-bottom: 1px solid black;
+  width: 100%;
   table-layout: fixed;
   display: table;
 `;
@@ -133,11 +132,8 @@ const PostHeader = styled.thead`
   width: 100%;
   height: 40px;
   font-size: 1.2rem;
-  font-weight: 600;
-  tr {
-    background: #9990ff;
-    color: white;
-  }
+  font-weight: 500;
+
   th {
     vertical-align: middle;
     border-left: none;
