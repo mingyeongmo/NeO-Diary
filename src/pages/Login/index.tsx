@@ -12,8 +12,10 @@ import {
   Form,
   Input,
   InputContainer,
+  Label,
   Switcher,
   Title,
+  UserAuthContainer,
   Wrapper,
 } from "components/Auth/Form";
 
@@ -64,40 +66,43 @@ const Login = () => {
   };
 
   return (
-    <Wrapper>
-      <Comment>
-        <h1>Secret Diary</h1>
-        <p>당신의 소중한 순간을 남겨보세요.</p>
-      </Comment>
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <Title>로그인</Title>
-        <InputContainer>
-          <Input
-            {...register("email")}
-            type="email"
-            placeholder="이메일"
-            required
-            onChange={() => setError(null)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <Input
-            {...register("password")}
-            type={showPassword ? "text" : "password"}
-            placeholder="비밀번호"
-            required
-          />
-          <i onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <OpenEye /> : <CloseEye />}
-          </i>
-        </InputContainer>
-        <Button type="submit">{isLoading ? "Loading..." : "로그인"}</Button>
-        <ErrorMessage>{error}</ErrorMessage>
-        <Switcher>
-          <Link to="/register">회원가입</Link>
-        </Switcher>
-      </Form>
-    </Wrapper>
+    <UserAuthContainer>
+      <Wrapper mode="login">
+        <Title>Login</Title>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <div className="Container">
+            <InputContainer className="firstInputContainer">
+              <Label>Email</Label>
+              <Input
+                {...register("email")}
+                type="email"
+                placeholder="이메일을 입력해주세요."
+                required
+                onChange={() => setError(null)}
+              />
+            </InputContainer>
+            <InputContainer>
+              <Label>Password</Label>
+              <Input
+                {...register("password")}
+                type={showPassword ? "text" : "password"}
+                placeholder="비밀번호를 입력해주세요."
+                required
+              />
+              <i onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <OpenEye /> : <CloseEye />}
+              </i>
+            </InputContainer>
+          </div>
+          <Button type="submit">{isLoading ? "Loading..." : "로그인"}</Button>
+          <ErrorMessage>{error}</ErrorMessage>
+          <Switcher>
+            <span className="question">계정이 없으신가요?</span>
+            <Link to="/register">회원가입</Link>
+          </Switcher>
+        </Form>
+      </Wrapper>
+    </UserAuthContainer>
   );
 };
 
