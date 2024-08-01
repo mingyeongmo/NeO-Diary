@@ -124,6 +124,7 @@ const PostsContainer = styled.div`
 
 const PostBox = styled.table`
   width: 100%;
+  height: 100%;
   table-layout: fixed;
   display: table;
 `;
@@ -163,13 +164,12 @@ const PostBody = styled.tbody`
 const LoadingMessage = styled.tr`
   width: 100%;
   height: 100%;
-  text-align: center;
-  vertical-align: middle;
 
   td {
     width: 100%;
     padding: 20px 0;
     text-align: center;
+    vertical-align: middle;
     font-size: 1.2rem;
   }
 `;
@@ -177,13 +177,12 @@ const LoadingMessage = styled.tr`
 const NonePostMessage = styled.tr`
   width: 100%;
   height: 100%;
-  text-align: center;
-  vertical-align: middle;
 
   td {
     width: 100%;
     padding: 20px 0;
     text-align: center;
+    vertical-align: middle;
     font-size: 1.2rem;
   }
 `;
