@@ -55,7 +55,7 @@ const TopAreaContainer = styled.div`
     width: 90%;
     display: flex;
     padding: 30px 0 20px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.4);
   }
 `;
 

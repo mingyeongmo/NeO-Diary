@@ -125,13 +125,13 @@ const Button = styled.button<{ variant: "cancel" | "save" }>`
   ${(props) =>
     props.variant === "cancel" &&
     css`
-      background: "gray";
+      background: gray;
     `}
 
   ${(props) =>
     props.variant === "save" &&
     css`
-      background: "#9990ff";
+      background: #9990ff;
     `}
 `;
 
