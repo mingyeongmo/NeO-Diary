@@ -75,7 +75,7 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
   return (
     <>
       <PostsContainer>
-        <PostBox>
+        <PostBox height={diaryList.length === 0 ? "100%" : "auto"}>
           <PostHeader>
             <tr>
               <th className="number">번호</th>
@@ -122,9 +122,9 @@ const PostsContainer = styled.div`
   align-items: center;
 `;
 
-const PostBox = styled.table`
+const PostBox = styled.table<{ height?: string }>`
   width: 100%;
-  height: 100%;
+  height: ${({ height }) => height || "auto"};
   table-layout: fixed;
   display: table;
 `;
