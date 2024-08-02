@@ -151,15 +151,10 @@ const useDiary = () => {
     file: File | null
   ) => {
     const user = auth.currentUser;
-    console.log("이거 실행은 된거냐?", diaryTitle, {
-      docId,
-      diaryContent,
-      file,
-    });
+
     if (!user || isLoading || diaryContent === "") return;
 
     try {
-      console.log("실행", diaryTitle);
       setLoading(true);
       const docRef = doc(db, "diary", docId);
       let updatedData: any = {

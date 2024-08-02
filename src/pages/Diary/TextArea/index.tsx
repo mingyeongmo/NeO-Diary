@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 interface TextAreaProps {
@@ -27,7 +28,6 @@ const TextArea = ({ diaryContent, onDiaryContentChange }: TextAreaProps) => {
     </TextAreaContainer>
   );
 };
-
 const TextAreaContainer = styled.div`
   width: auto;
   height: 100%;
