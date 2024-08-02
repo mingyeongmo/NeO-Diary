@@ -75,7 +75,7 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
   return (
     <>
       <PostsContainer>
-        <PostBox height={diaryList.length === 0 ? "100%" : "auto"}>
+        <PostBox height={diaryList.length === 0 || loading ? "100%" : "auto"}>
           <PostHeader>
             <tr>
               <th className="number">번호</th>
