@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import Post from "./post";
 import Pagination from "./Pagination";
@@ -32,11 +32,21 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
 
   const fetchDiary = async () => {
     setLoading(true);
+
+    const user = auth.currentUser;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
     const diaryQuery = query(
       collection(db, "diary"),
+      where("userId", "==", user.uid),
       where("diaryDate.year", "==", selectedYear),
       where("diaryDate.month", "==", selectedMonth),
-      orderBy("diaryDate", "desc")
+      orderBy("diaryDate", "desc"),
+      orderBy("diaryDate.month", "desc"),
+      orderBy("diaryDate.day", "desc")
     );
     const snapshot = await getDocs(diaryQuery);
     const diary = snapshot.docs.map((doc) => {
