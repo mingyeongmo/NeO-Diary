@@ -72,7 +72,6 @@ const useDiary = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onDiaryTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("hi");
     dispatch({ type: "SET_TITLE", payload: e.target.value });
   };
 
