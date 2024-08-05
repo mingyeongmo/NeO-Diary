@@ -11,14 +11,7 @@ const DiaryDetail = () => {
   const { id, diaryTitle, diaryDate, diaryWeather, photo, diaryContent } =
     state;
 
-  const {
-    updateDiary,
-    setDiaryDate,
-    setDiaryWeather,
-    onFileChange,
-    fileInputRef,
-    handleFileRemove,
-  } = useDiary();
+  const { updateDiary } = useDiary();
 
   const [isEditMode, setIsEditMode] = useState(false);
 

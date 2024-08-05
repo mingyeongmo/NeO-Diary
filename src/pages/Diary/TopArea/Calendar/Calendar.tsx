@@ -53,7 +53,7 @@ const Calendar = React.memo(({ setDiaryDate }: diaryCalendarType) => {
 
       setDiaryDate(emptyDateData);
     }
-  }, [selectedDate]);
+  }, [selectedDate, setDiaryDate]);
 
   const handleDateChange = (date: SetStateAction<Date | null>) => {
     setSelectedDate(date);

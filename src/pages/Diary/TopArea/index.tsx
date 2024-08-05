@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Calendar from "./Calendar/Calendar";
 import Weather from "./Weather/Weather";
@@ -14,28 +14,38 @@ interface TopAreaProps {
   setDiaryWeather: (weather: string) => void;
 }
 
-const TopArea = ({
-  setDiaryDate,
-  diaryTitle,
-  onDiaryTitleChange,
-  setDiaryWeather,
-}: TopAreaProps) => {
-  return (
-    <TopAreaContainer>
-      <Top>
-        <Calendar setDiaryDate={setDiaryDate} />
-        <TitleInput
-          value={diaryTitle}
-          onChange={onDiaryTitleChange}
-          type="text"
-          placeholder="일기 제목"
-          maxLength={15}
-        />
-        <Weather setDiaryWeather={setDiaryWeather} />
-      </Top>
-    </TopAreaContainer>
-  );
-};
+const TopArea = React.memo(
+  ({
+    setDiaryDate,
+    diaryTitle,
+    onDiaryTitleChange,
+    setDiaryWeather,
+  }: TopAreaProps) => {
+    useEffect(() => {
+      console.log(
+        "diaryTitle changed:",
+        setDiaryDate,
+        onDiaryTitleChange,
+        setDiaryWeather
+      );
+    }, [setDiaryDate, onDiaryTitleChange, setDiaryWeather]);
+    return (
+      <TopAreaContainer>
+        <Top>
+          <Calendar setDiaryDate={setDiaryDate} />
+          <TitleInput
+            value={diaryTitle}
+            onChange={onDiaryTitleChange}
+            type="text"
+            placeholder="일기 제목"
+            maxLength={15}
+          />
+          <Weather setDiaryWeather={setDiaryWeather} />
+        </Top>
+      </TopAreaContainer>
+    );
+  }
+);
 
 const TopAreaContainer = styled.div`
   width: 100%;
@@ -47,7 +57,7 @@ const Top = styled.div`
   width: 90%;
   display: flex;
   padding: 30px 0 20px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.4);
 `;
 
 const TitleInput = styled.input`

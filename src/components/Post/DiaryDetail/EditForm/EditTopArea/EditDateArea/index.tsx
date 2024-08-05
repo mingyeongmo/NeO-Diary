@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import { LeftBtn, RightBtn } from "components/Icon/Icons";
@@ -17,15 +17,14 @@ interface EditDateAreaProps {
 }
 
 const EditDateArea = ({ diaryDate }: EditDateAreaProps) => {
-  const initialDate = new Date(
-    diaryDate.year ?? new Date().getFullYear(),
-    (diaryDate.month ?? new Date().getMonth()) - 1,
-    diaryDate.day ?? new Date().getDate()
-  );
-
   const [editDate, setEditDate] = useRecoilState(editDiaryDateState);
 
   useEffect(() => {
+    const initialDate = new Date(
+      diaryDate.year ?? new Date().getFullYear(),
+      (diaryDate.month ?? new Date().getMonth()) - 1,
+      diaryDate.day ?? new Date().getDate()
+    );
     setEditDate(initialDate);
   }, [diaryDate, setEditDate]);
 

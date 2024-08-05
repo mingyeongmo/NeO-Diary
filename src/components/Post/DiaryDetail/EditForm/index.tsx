@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EditPhotoArea from "./EditPhotoArea";
 import EditTopArea from "./EditTopArea";
 import * as WriteStyle from "../../../../pages/Diary/style";

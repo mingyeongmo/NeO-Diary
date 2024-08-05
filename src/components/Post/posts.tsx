@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import Post from "./post";
@@ -30,7 +30,7 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
 
-  const fetchDiary = async () => {
+  const fetchDiary = useCallback(async () => {
     setLoading(true);
 
     const user = auth.currentUser;
@@ -70,11 +70,11 @@ const Posts = ({ selectedYear, selectedMonth }: PostsProps) => {
     });
     setDiaryList(diary);
     setLoading(false);
-  };
+  }, [selectedYear, selectedMonth]);
 
   useEffect(() => {
     fetchDiary();
-  }, [selectedYear, selectedMonth]);
+  }, [fetchDiary]);
 
   const totalPages = Math.ceil(diaryList.length / itemsPerPage);
 

@@ -7,17 +7,28 @@ const Footer = () => {
         <span className="copyright">©2024 minmo All rights reserved.</span>
         <section>
           <span>
-            <a href="https://github.com/mingyeongmo" target="_blank">
+            <a
+              href="https://github.com/mingyeongmo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Github
             </a>
           </span>
           <span>
-            <a href="https://minmo.vercel.app" target="_blank">
+            <a
+              href="https://minmo.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Blog
             </a>
           </span>
           <span>
-            <a href="mailto:mingyeongmo9854@gmail.com">
+            <a
+              href="mailto:mingyeongmo9854@gmail.com"
+              rel="noopener noreferrer"
+            >
               mingyeongmo9854@gmail.com
             </a>
           </span>

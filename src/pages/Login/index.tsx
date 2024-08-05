@@ -7,7 +7,6 @@ import { auth } from "../../firebase";
 import { OpenEye, CloseEye } from "components/Icon/Icons";
 import {
   Button,
-  Comment,
   ErrorMessage,
   Form,
   Input,
@@ -32,11 +31,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValue>();
+  const { register, handleSubmit } = useForm<FormValue>();
 
   const onSubmit = async (data: FormValue) => {
     console.log({ data });

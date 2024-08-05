@@ -16,7 +16,7 @@ const Weather = React.memo(({ setDiaryWeather }: diaryWeatherType) => {
 
   useEffect(() => {
     setDiaryWeather(weather);
-  }, [weather]);
+  }, [weather, setDiaryWeather]);
 
   return (
     <WeatherContainer>
