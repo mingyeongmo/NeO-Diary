@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Calendar from "./Calendar/Calendar";
 import Weather from "./Weather/Weather";
@@ -21,14 +21,6 @@ const TopArea = React.memo(
     onDiaryTitleChange,
     setDiaryWeather,
   }: TopAreaProps) => {
-    useEffect(() => {
-      console.log(
-        "diaryTitle changed:",
-        setDiaryDate,
-        onDiaryTitleChange,
-        setDiaryWeather
-      );
-    }, [setDiaryDate, onDiaryTitleChange, setDiaryWeather]);
     return (
       <TopAreaContainer>
         <Top>
