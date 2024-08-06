@@ -130,8 +130,10 @@ const useDiary = () => {
         });
       }
       dispatch({ type: "SET_INITIAL_STATE", payload: initialState });
+      return true;
     } catch (e) {
       console.log(e);
+      return false;
     } finally {
       setLoading(false);
     }

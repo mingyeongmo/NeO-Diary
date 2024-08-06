@@ -4,6 +4,7 @@ import PhotoArea from "./PhotoArea";
 import TextArea from "./TextArea";
 import * as S from "./style";
 import { ChangeEvent, useCallback } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Diary = () => {
   const {
@@ -21,6 +22,8 @@ const Diary = () => {
     diaryContent,
     onDiaryContentChange,
   } = useDiary();
+
+  const navigate = useNavigate();
 
   const memoizedSetDiaryDate = useCallback(
     (date: {
@@ -47,9 +50,17 @@ const Diary = () => {
     [setDiaryWeather]
   );
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const success = await onSubmit(e);
+    if (success) {
+      navigate("/");
+    }
+  };
+
   return (
     <S.DiaryContainer>
-      <S.Form onSubmit={onSubmit}>
+      <S.Form onSubmit={handleSubmit}>
         <S.Content>
           <TopArea
             setDiaryDate={memoizedSetDiaryDate}
