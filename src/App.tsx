@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { auth } from "./firebase";
 import Login from "pages/Login";
 import Register from "pages/Register";
@@ -9,6 +9,7 @@ import ProtectedRoute from "components/protected-route";
 import styled from "styled-components";
 import Diary from "pages/Diary";
 import DiaryDetail from "components/Post/DiaryDetail";
+import MyPage from "pages/MyPage";
 import { RecoilRoot } from "recoil";
 
 const router = createBrowserRouter([
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "",
+        index: true,
         element: (
           <ProtectedRoute>
             <Home />
@@ -25,10 +26,28 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "diary/write",
+        path: "diary",
         element: (
           <ProtectedRoute>
-            <Diary />
+            <Outlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "write",
+            element: <Diary />,
+          },
+          {
+            path: "detail/:id",
+            element: <DiaryDetail />,
+          },
+        ],
+      },
+      {
+        path: "mypage",
+        element: (
+          <ProtectedRoute>
+            <MyPage />
           </ProtectedRoute>
         ),
       },
@@ -39,10 +58,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
-      },
-      {
-        path: "diary/detail/:id",
-        element: <DiaryDetail />,
       },
     ],
   },

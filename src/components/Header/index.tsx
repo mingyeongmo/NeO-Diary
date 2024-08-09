@@ -48,6 +48,9 @@ const Header = () => {
           <Span>
             <Link to="/diary/write">일기 작성</Link>
           </Span>
+          <Span>
+            <Link to="/mypage">마이 페이지</Link>
+          </Span>
           {isLoggedIn ? (
             <Span onClick={handleLogOut} style={{ cursor: "pointer" }}>
               로그아웃

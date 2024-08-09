@@ -1,10 +1,10 @@
+import { ChangeEvent, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import useDiary from "hooks/useDiary";
 import TopArea from "./TopArea";
 import PhotoArea from "./PhotoArea";
 import TextArea from "./TextArea";
 import * as S from "./style";
-import { ChangeEvent, useCallback } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const Diary = () => {
   const {
