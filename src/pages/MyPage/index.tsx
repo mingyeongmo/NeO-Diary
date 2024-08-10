@@ -1,25 +1,74 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  sendEmailVerification,
+  updateEmail,
+  updateProfile,
+} from "firebase/auth";
 import styled from "styled-components";
+
+type BtnProps = {
+  btnType: "edit" | "cancel" | "save";
+};
 
 const MyPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [editMode, setEditMode] = useState(false);
+  const [initialData, setInitialData] = useState({ name: "", email: "" });
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setName(user.displayName || "");
-        setEmail(user.email || "");
-        // 비밀번호는 Firebase Auth에서 직접적으로 가져올 수 없습니다.
-        // 사용자가 비밀번호를 변경하고 싶다면 별도의 처리 필요
+        const userName = user.displayName || "";
+        const userEmail = user.email || "";
+
+        setName(userName);
+        setEmail(userEmail);
+        setInitialData({ name: userName, email: userEmail });
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleCancel = () => {
+    setName(initialData.name);
+    setEmail(initialData.email);
+    setPassword("");
+    setEditMode(false);
+  };
+
+  const handleSave = async () => {
+    try {
+      const user = auth.currentUser;
+
+      if (user) {
+        if (name !== initialData.name) {
+          await updateProfile(user, { displayName: name });
+        }
+
+        if (email !== initialData.email) {
+          await updateEmail(user, email);
+          await sendEmailVerification(user);
+        }
+
+        setInitialData({ name, email });
+        setEditMode(false);
+        alert("저장되었습니다.");
+      }
+    } catch (error) {
+      console.error("저장 중 오류가 발생했습니다:", error);
+      alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
 
   return (
     <MyPageContainer>
@@ -28,19 +77,42 @@ const MyPage = () => {
         <GridContent>
           <InputContainer>
             <Label>이름</Label>
-            <Input type="text" value={name} />
+            <Input
+              type="text"
+              value={name}
+              disabled={!editMode}
+              onChange={(e) => setName(e.target.value)}
+            />
           </InputContainer>
           <InputContainer>
             <Label>이메일</Label>
-            <Input type="email" value={email} />
+            <Input
+              type="email"
+              value={email}
+              disabled={!editMode}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </InputContainer>
           <InputContainer>
             <Label>비밀번호</Label>
-            <Input type="password" value={password} />
+            <Input type="password" value={password} disabled={!editMode} />
           </InputContainer>
         </GridContent>
         <BtnContainer>
-          <EditBtn>저장</EditBtn>
+          {editMode ? (
+            <>
+              <Btn $btnType="cancel" onClick={handleCancel}>
+                취소
+              </Btn>
+              <Btn $btnType="save" onClick={handleSave}>
+                저장
+              </Btn>
+            </>
+          ) : (
+            <Btn $btnType="edit" onClick={handleEdit}>
+              수정
+            </Btn>
+          )}
         </BtnContainer>
       </Section>
     </MyPageContainer>
@@ -106,14 +178,22 @@ const BtnContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const EditBtn = styled.button`
+const Btn = styled.button<{ $btnType: "edit" | "cancel" | "save" }>`
   font-size: 1rem;
   font-weight: 600;
   width: 100px;
   height: 35px;
   border: none;
   border-radius: 5px;
-  background-color: #9990ff;
+  cursor: pointer;
+  margin-left: 10px;
+
+  background-color: ${(props) =>
+    props.$btnType === "edit"
+      ? "#9990ff"
+      : props.$btnType === "cancel"
+      ? "#ff6b6b"
+      : "#9990ff"};
   color: #ffffff;
 `;
 
