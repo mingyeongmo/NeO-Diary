@@ -3,6 +3,7 @@ import { auth } from "../../firebase";
 import {
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
   updateEmail,
   updateProfile,
 } from "firebase/auth";
@@ -11,10 +12,9 @@ import styled from "styled-components";
 const MyPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const [editMode, setEditMode] = useState(false);
   const [initialData, setInitialData] = useState({ name: "", email: "" });
+  const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -31,15 +31,12 @@ const MyPage = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  const handleCancel = () => {
-    setName(initialData.name);
-    setEmail(initialData.email);
-    setPassword("");
-    setEditMode(false);
+  const handleInputChange = (
+    setter: React.Dispatch<React.SetStateAction<string>>,
+    value: string
+  ) => {
+    setter(value);
+    setIsModified(value !== initialData.name || value !== initialData.email);
   };
 
   const handleSave = async () => {
@@ -57,12 +54,22 @@ const MyPage = () => {
         }
 
         setInitialData({ name, email });
-        setEditMode(false);
+        setIsModified(false);
         alert("저장되었습니다.");
       }
     } catch (error) {
       console.error("저장 중 오류가 발생했습니다:", error);
       alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("비밀번호 재설정 이메일이 전송되었습니다.");
+    } catch (error) {
+      console.error("비밀번호 재설정 중 오류가 발생했습니다:", error);
+      alert("비밀번호 재설정 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -76,8 +83,7 @@ const MyPage = () => {
             <Input
               type="text"
               value={name}
-              disabled={!editMode}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => handleInputChange(setName, e.target.value)}
             />
           </InputContainer>
           <InputContainer>
@@ -85,30 +91,20 @@ const MyPage = () => {
             <Input
               type="email"
               value={email}
-              disabled={!editMode}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleInputChange(setEmail, e.target.value)}
             />
           </InputContainer>
           <InputContainer>
             <Label>비밀번호</Label>
-            <Input type="password" value={password} disabled={!editMode} />
+            <ResetPasswordBtn onClick={handlePasswordReset}>
+              비밀번호 재설정
+            </ResetPasswordBtn>
           </InputContainer>
         </GridContent>
         <BtnContainer>
-          {editMode ? (
-            <>
-              <Btn $btnType="cancel" onClick={handleCancel}>
-                취소
-              </Btn>
-              <Btn $btnType="save" onClick={handleSave}>
-                저장
-              </Btn>
-            </>
-          ) : (
-            <Btn $btnType="edit" onClick={handleEdit}>
-              수정
-            </Btn>
-          )}
+          <Btn $btnType="edit" onClick={handleSave} disabled={!isModified}>
+            저장
+          </Btn>
         </BtnContainer>
       </Section>
     </MyPageContainer>
@@ -167,6 +163,24 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
+const ResetPasswordBtn = styled.button`
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 1rem;
+
+  color: #ffffff;
+  font-weight: 600;
+  background-color: #9990ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #8a7fff;
+    border-color: #8a7fff;
+  }
+`;
+
 const BtnContainer = styled.div`
   width: 100%;
   margin-top: 30px;
@@ -191,6 +205,10 @@ const Btn = styled.button<{ $btnType: "edit" | "cancel" | "save" }>`
       ? "#ff6b6b"
       : "#9990ff"};
   color: #ffffff;
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
 
 export default MyPage;
