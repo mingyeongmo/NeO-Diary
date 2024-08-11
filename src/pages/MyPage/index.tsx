@@ -8,10 +8,6 @@ import {
 } from "firebase/auth";
 import styled from "styled-components";
 
-type BtnProps = {
-  btnType: "edit" | "cancel" | "save";
-};
-
 const MyPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
