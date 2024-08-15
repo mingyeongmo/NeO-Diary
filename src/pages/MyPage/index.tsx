@@ -8,6 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
   const [name, setName] = useState("");
@@ -15,6 +16,8 @@ const MyPage = () => {
 
   const [initialData, setInitialData] = useState({ name: "", email: "" });
   const [isModified, setIsModified] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -73,6 +76,29 @@ const MyPage = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const confirmDelete = window.confirm(
+        "정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+      );
+
+      if (confirmDelete) {
+        try {
+          await user.delete();
+          alert("계정이 성공적으로 삭제되었습니다.");
+          navigate("/login");
+        } catch (error) {
+          console.error("계정 삭제 중 오류가 발생했습니다:", error);
+          alert(
+            "계정 삭제 중 오류가 발생했습니다. 다시 로그인 후 시도해 주세요."
+          );
+        }
+      }
+    }
+  };
+
   return (
     <MyPageContainer>
       <Section>
@@ -99,6 +125,12 @@ const MyPage = () => {
             <ResetPasswordBtn onClick={handlePasswordReset}>
               비밀번호 재설정
             </ResetPasswordBtn>
+          </InputContainer>
+          <InputContainer>
+            <Label>회원 탈퇴</Label>
+            <DeleteAccountBtn onClick={handleDeleteAccount}>
+              탈퇴 하기
+            </DeleteAccountBtn>
           </InputContainer>
         </GridContent>
         <BtnContainer>
@@ -167,9 +199,9 @@ const ResetPasswordBtn = styled.button`
   margin-top: 10px;
   padding: 5px 10px;
   font-size: 1rem;
+  font-weight: 600;
 
   color: #ffffff;
-  font-weight: 600;
   background-color: #9990ff;
   border: none;
   border-radius: 5px;
@@ -179,6 +211,20 @@ const ResetPasswordBtn = styled.button`
     background-color: #8a7fff;
     border-color: #8a7fff;
   }
+`;
+
+const DeleteAccountBtn = styled.button`
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: #ffffff;
+  background-color: red;
+
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 const BtnContainer = styled.div`
