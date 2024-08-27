@@ -39,7 +39,6 @@ const Register = () => {
   } = useForm<FormValue>({ mode: "onBlur", reValidateMode: "onBlur" });
 
   const onSubmit = async (data: FormValue) => {
-    console.log({ data });
     setError("");
     const { email, password, name } = data;
 
@@ -50,8 +49,6 @@ const Register = () => {
         email,
         password
       );
-
-      console.log(credentials.user);
 
       await updateProfile(credentials.user, {
         displayName: name,
@@ -114,7 +111,6 @@ const Register = () => {
                 required
                 onChange={() => setError(null)}
               />
-              {error && <ErrorMessage>{error}</ErrorMessage>}
               <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </InputContainer>
             <InputContainer>
