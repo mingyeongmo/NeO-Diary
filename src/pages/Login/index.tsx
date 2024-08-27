@@ -34,21 +34,28 @@ const Login = () => {
   const { register, handleSubmit } = useForm<FormValue>();
 
   const onSubmit = async (data: FormValue) => {
-    console.log({ data });
     setError("");
     const { email, password } = data;
 
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
-        if (e.code === "auth/invalid-credential") {
-          setError("이메일 주소 또는 유효하지 않은 비밀번호 입니다.");
-        } else {
-          setError("예기치 못한 에러 입니다.");
+        switch (e.code) {
+          case "auth/user-not-found":
+            setError("해당 이메일로 등록된 계정이 없습니다.");
+            break;
+          case "auth/wrong-password":
+            setError("유효하지 않은 비밀번호 입니다.");
+            break;
+          case "auth/invalid-credential":
+            setError("유효하지 않은 자격 증명입니다. 다시 시도해주세요.");
+            break;
+          default:
+            setError("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+            break;
         }
       }
     } finally {
@@ -82,6 +89,7 @@ const Login = () => {
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
                 placeholder="비밀번호를 입력해주세요."
+                autoComplete="off"
                 required
               />
               <i onClick={() => setShowPassword(!showPassword)}>

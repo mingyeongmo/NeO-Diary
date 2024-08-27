@@ -103,7 +103,7 @@ export const Input = styled.input`
 
 export const ErrorMessage = styled.p`
   color: red;
-  margin: 0;
+  margin-top: 10px;
   font-size: 0.9rem;
 `;
 
